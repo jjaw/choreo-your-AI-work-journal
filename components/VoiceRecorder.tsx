@@ -79,7 +79,7 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
     const dataArray = new Uint8Array(bufferLength)
     const delayFrames = Math.max(1, Math.round(0.5 * 60))
     const delayedFrames: Uint8Array[] = []
-    let smoothedFrame = new Float32Array(bufferLength)
+    const smoothedFrame = new Float32Array(bufferLength)
     const amplitudeMultiplier = 5
     let phase = 0
 
