@@ -27,18 +27,54 @@ const opikClient =
       })
     : null
 
-const client = trackGemini(new GoogleGenAI({ apiKey }), opikClient ? { client: opikClient } : undefined)
+const baseClient = new GoogleGenAI({ apiKey })
+const defaultTrackedClient = trackGemini(
+  baseClient,
+  opikClient
+    ? {
+        client: opikClient,
+        traceMetadata: {
+          tags: ["choreo"],
+          component: "gemini",
+        },
+      }
+    : undefined
+)
+
+type TraceOptions = {
+  tags?: string[]
+  metadata?: Record<string, unknown>
+  generationName?: string
+}
 
 export async function generateContent({
   contents,
   model = resolvedModel,
   config,
+  tracing,
 }: {
   contents: ContentListUnion
   model: string
   config?: GenerateContentConfig
+  tracing?: TraceOptions
 }) {
-  return client.models.generateContent({ model, contents, config })
+  const trackedClient =
+    tracing && opikClient
+      ? trackGemini(baseClient, {
+          client: opikClient,
+          traceMetadata: {
+            tags: ["choreo", ...(tracing.tags ?? [])],
+            ...tracing.metadata,
+          },
+          generationName: tracing.generationName,
+        })
+      : defaultTrackedClient
+
+  return trackedClient.models.generateContent({ model, contents, config })
+}
+
+export function getGeminiModelName() {
+  return resolvedModel
 }
 
 export function buildInlineAudioPart(data: string, mimeType: string): PartUnion {

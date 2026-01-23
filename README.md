@@ -110,6 +110,8 @@ Note: We initially planned to upload audio to Supabase Storage before processing
 **Why Opik:**  
 Without observability, we'd be deploying AI blind. Opik gives us data-driven confidence that our AI is improving. Thank you for being a major sponsor!
 
+**Trace notes:** See `opik_log.md`.
+
 **What We'll Track:**
 - All LLM calls (transcription, summary, task extraction)
 - Human feedback (edits, acceptances, rejections)

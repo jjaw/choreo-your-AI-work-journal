@@ -28,6 +28,7 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState<string | null>(null)
+  const [submissionComplete, setSubmissionComplete] = useState(false)
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const mediaStreamRef = useRef<MediaStream | null>(null)
@@ -221,13 +222,16 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
     }
   }
 
-  const handleReset = () => {
+  const resetRecorder = ({ clearMessage }: { clearMessage: boolean }) => {
     cleanupStream()
     setRecorderState("idle")
     setElapsedSeconds(0)
     setAudioBlob(null)
     setError(null)
-    setSubmitMessage(null)
+    setSubmissionComplete(false)
+    if (clearMessage) {
+      setSubmitMessage(null)
+    }
   }
 
   const handleSubmit = async () => {
@@ -245,6 +249,8 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
 
       if (onSubmit) {
         await onSubmit(payload)
+        setSubmissionComplete(true)
+        setSubmitMessage("Recording processed successfully.")
         return
       }
 
@@ -263,7 +269,7 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
         throw new Error(responseError ?? "Failed to upload recording")
       }
 
-      handleReset()
+      setSubmissionComplete(true)
       setSubmitMessage("Recording uploaded successfully. Ready for transcription.")
     } catch (submissionError) {
       console.error("Failed to submit reflection", submissionError)
@@ -357,14 +363,24 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
           )}
           {recorderState === "review" && (
             <>
-              <Button size="lg" variant="outline" onClick={handleReset}>
-                Re-record
-              </Button>
-              <Button size="lg" className="bg-brand-600 hover:bg-brand-700 text-white" disabled={!audioBlob || isSubmitting} onClick={handleSubmit}>
-                {isSubmitting ? "Submitting..." : "Submit Reflection"}
-              </Button>
-            </>
-          )}
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => resetRecorder({ clearMessage: true })}
+              disabled={submissionComplete}
+            >
+              Re-record
+            </Button>
+            <Button
+              size="lg"
+              className="bg-brand-600 hover:bg-brand-700 text-white"
+              disabled={!audioBlob || isSubmitting || submissionComplete}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Reflection"}
+            </Button>
+          </>
+        )}
         </div>
 
         <div className="relative h-24 bg-slate-100 rounded-lg overflow-hidden">
@@ -378,6 +394,7 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
 
         {error && <p className="text-sm text-red-600">{error}</p>}
         {submitMessage && <p className="text-sm text-green-600">{submitMessage}</p>}
+        {submissionComplete && <p className="text-xs text-slate-500">Audio submitted for today.</p>}
 
         {audioBlob && recorderState === "review" && (
           <div className="space-y-3 text-sm text-slate-600">

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-import { buildInlineAudioPart, generateContent } from "@/lib/gemini"
+import { buildInlineAudioPart, generateContent, getGeminiModelName } from "@/lib/gemini"
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
 const ALLOWED_MIME_TYPES = ["audio/webm", "audio/webm;codecs=opus", "audio/mpeg", "audio/ogg", "audio/wav"]
@@ -31,6 +31,17 @@ export async function POST(request: Request) {
         "Transcribe this audio accurately. Return only the transcript text.",
         audioPart,
       ],
+      model: getGeminiModelName(),
+      tracing: {
+        generationName: "transcription",
+        tags: ["transcribe"],
+        metadata: {
+          route: "transcribe",
+          hasAudio: true,
+          audioMimeType: audioFile.type,
+          audioSizeBytes: audioFile.size,
+        },
+      },
     })
     const transcript = result.text?.trim() ?? ""
 

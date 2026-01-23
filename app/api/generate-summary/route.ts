@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 
-import { buildInlineAudioPart, generateContent } from "@/lib/gemini"
+import { buildInlineAudioPart, generateContent, getGeminiModelName } from "@/lib/gemini"
+import type { PartUnion } from "@google/genai"
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
 const ALLOWED_MIME_TYPES = ["audio/webm", "audio/webm;codecs=opus", "audio/mpeg", "audio/ogg", "audio/wav"]
@@ -54,7 +55,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing transcript" }, { status: 400 })
     }
 
-    const contentParts: unknown[] = [
+    const contentParts: PartUnion[] = [
       [
         "You are summarizing a user's workday reflection.",
         "Use the transcript text and, if present, the audio tone to infer emotional tone and energy level.",
@@ -77,7 +78,21 @@ export async function POST(request: Request) {
       contentParts.push(buildInlineAudioPart(base64Audio, audioFile.type))
     }
 
-    const result = await generateContent({ contents: contentParts })
+    const result = await generateContent({
+      contents: contentParts,
+      model: getGeminiModelName(),
+      tracing: {
+        generationName: "summary_generation",
+        tags: ["summary"],
+        metadata: {
+          route: "generate-summary",
+          transcriptLength: transcript.length,
+          hasAudio: Boolean(audioFile),
+          audioMimeType: audioFile?.type ?? null,
+          audioSizeBytes: audioFile?.size ?? null,
+        },
+      },
+    })
     const raw = result.text?.trim() ?? ""
     const summary = safeParseSummary(raw)
 

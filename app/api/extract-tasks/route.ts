@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-import { generateContent } from "@/lib/gemini"
+import { generateContent, getGeminiModelName } from "@/lib/gemini"
 
 type TaskItem = {
   task_text: string
@@ -14,23 +14,42 @@ type TaskPayload = {
 
 const emptyTasks: TaskPayload = { tasks: [] }
 
+const normalizeCategory = (value: unknown): TaskItem["category"] => {
+  switch (value) {
+    case "collaborating":
+    case "communicating":
+    case "organizing":
+    case "creating":
+      return value
+    default:
+      return "creating"
+  }
+}
+
+const normalizeConfidence = (value: unknown): TaskItem["confidence"] => {
+  switch (value) {
+    case "high":
+    case "medium":
+    case "low":
+      return value
+    default:
+      return "low"
+  }
+}
+
 function safeParseTasks(raw: string): TaskPayload {
   const trimmed = raw.trim()
   const jsonText = trimmed.replace(/^```json\s*/i, "").replace(/```$/i, "").trim()
   try {
     const parsed = JSON.parse(jsonText) as Partial<TaskPayload>
     if (!parsed.tasks || !Array.isArray(parsed.tasks)) return emptyTasks
-    const tasks: TaskItem[] = parsed.tasks
+    const rawTasks = parsed.tasks as Array<Partial<TaskItem>>
+    const tasks: TaskItem[] = rawTasks
       .filter((task): task is TaskItem => !!task && typeof task.task_text === "string")
       .map((task) => ({
         task_text: task.task_text.trim(),
-        category:
-          task.category === "collaborating" ||
-          task.category === "communicating" ||
-          task.category === "organizing"
-            ? task.category
-            : "creating",
-        confidence: task.confidence === "high" || task.confidence === "medium" ? task.confidence : "low",
+        category: normalizeCategory(task.category),
+        confidence: normalizeConfidence(task.confidence),
       }))
       .filter((task) => task.task_text.length > 0)
 
@@ -58,7 +77,18 @@ export async function POST(request: Request) {
       `Transcript:\n${transcript}`,
     ].join(" ")
 
-    const result = await generateContent({ contents: prompt })
+    const result = await generateContent({
+      contents: prompt,
+      model: getGeminiModelName(),
+      tracing: {
+        generationName: "task_extraction",
+        tags: ["tasks"],
+        metadata: {
+          route: "extract-tasks",
+          transcriptLength: transcript.length,
+        },
+      },
+    })
     const raw = result.text?.trim() ?? ""
     const tasks = safeParseTasks(raw)
 
