@@ -1,8 +1,101 @@
-import { VoiceRecorder } from "@/components/VoiceRecorder"
+"use client"
+
+import { useState } from "react"
+import { VoiceRecorder, type RecordingPayload } from "@/components/VoiceRecorder"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 
+type SummaryPayload = {
+  wins: string[]
+  drains: string[]
+  tomorrow_focus: string[]
+  emotional_tone: string
+  energy_level: string
+  emotion_confidence: "low" | "medium" | "high"
+}
+
+type TaskItem = {
+  task_text: string
+  category: "creating" | "collaborating" | "communicating" | "organizing"
+  confidence: "low" | "medium" | "high"
+}
+
 export default function Home() {
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [uploadStatus, setUploadStatus] = useState<string | null>(null)
+  const [transcript, setTranscript] = useState<string | null>(null)
+  const [summary, setSummary] = useState<SummaryPayload | null>(null)
+  const [tasks, setTasks] = useState<TaskItem[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [lastPayload, setLastPayload] = useState<RecordingPayload | null>(null)
+
+  const handleSubmit = async (payload: RecordingPayload) => {
+    setIsProcessing(true)
+    setUploadStatus(null)
+    setTranscript(null)
+    setSummary(null)
+    setTasks([])
+    setError(null)
+    setLastPayload(payload)
+
+    try {
+      setUploadStatus("Processing AI results...")
+
+      const transcribeData = new FormData()
+      transcribeData.append("audio", payload.audioBlob, `recording.webm`)
+      const transcribeResponse = await fetch("/api/transcribe", {
+        method: "POST",
+        body: transcribeData,
+      })
+      if (!transcribeResponse.ok) {
+        const { error: transcribeError } = await transcribeResponse.json().catch(() => ({}))
+        throw new Error(transcribeError ?? "Failed to transcribe audio")
+      }
+      const transcribeJson = await transcribeResponse.json()
+      const transcriptText = String(transcribeJson.transcript ?? "").trim()
+      setTranscript(transcriptText)
+
+      const summaryData = new FormData()
+      summaryData.append("transcript", transcriptText)
+      summaryData.append("audio", payload.audioBlob, `recording.webm`)
+      const summaryResponse = await fetch("/api/generate-summary", {
+        method: "POST",
+        body: summaryData,
+      })
+      if (!summaryResponse.ok) {
+        const { error: summaryError } = await summaryResponse.json().catch(() => ({}))
+        throw new Error(summaryError ?? "Failed to generate summary")
+      }
+      const summaryJson = await summaryResponse.json()
+      setSummary(summaryJson.summary ?? null)
+
+      const tasksData = new FormData()
+      tasksData.append("transcript", transcriptText)
+      const tasksResponse = await fetch("/api/extract-tasks", {
+        method: "POST",
+        body: tasksData,
+      })
+      if (!tasksResponse.ok) {
+        const { error: tasksError } = await tasksResponse.json().catch(() => ({}))
+        throw new Error(tasksError ?? "Failed to extract tasks")
+      }
+      const tasksJson = await tasksResponse.json()
+      setTasks(tasksJson.tasks?.tasks ?? [])
+      setUploadStatus("Processing complete.")
+    } catch (submitError) {
+      console.error("Processing failed", submitError)
+      setError(submitError instanceof Error ? submitError.message : "Something went wrong.")
+      setUploadStatus(null)
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
+  const handleRetry = async () => {
+    if (!lastPayload || isProcessing) return
+    await handleSubmit(lastPayload)
+  }
+
   return (
     <main className="page-layout">
       <div className="max-w-2xl w-full space-y-8">
@@ -19,7 +112,98 @@ export default function Home() {
           </p>
         </div>
 
-        <VoiceRecorder />
+        <VoiceRecorder onSubmit={handleSubmit} />
+
+        {(isProcessing || uploadStatus || error) && (
+          <Card className="card-base">
+            <CardHeader>
+              <CardTitle className="text-lg text-slate-900">Processing status</CardTitle>
+              <CardDescription className="text-slate-600">
+                {isProcessing ? "Working through the AI pipeline..." : "Latest update"}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2 text-sm text-slate-700">
+              {uploadStatus && <p>{uploadStatus}</p>}
+              {error && <p className="text-red-600">{error}</p>}
+              {error && lastPayload && (
+                <div className="space-y-1">
+                  <Button variant="outline" className="mt-2 border-slate-300" onClick={handleRetry}>
+                    Retry AI
+                  </Button>
+                  <p className="text-xs text-slate-500">Retries use the same recording.</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+
+        {(transcript || summary || tasks.length > 0) && (
+          <Card className="card-base">
+            <CardHeader>
+              <CardTitle className="text-lg text-slate-900">Latest AI Output</CardTitle>
+              <CardDescription className="text-slate-600">
+                Review what the system extracted from your reflection.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6 text-sm text-slate-700">
+              {transcript && (
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-slate-900">Transcript</h3>
+                  <p className="text-slate-600">{transcript}</p>
+                </div>
+              )}
+
+              {summary && (
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-slate-900">Wins</h3>
+                    <ul className="list-disc list-inside text-slate-600">
+                      {summary.wins.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-900">Energy Drains</h3>
+                    <ul className="list-disc list-inside text-slate-600">
+                      {summary.drains.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-900">Tomorrow Focus</h3>
+                    <ul className="list-disc list-inside text-slate-600">
+                      {summary.tomorrow_focus.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="text-xs text-slate-500">
+                    Emotion: {summary.emotional_tone} | Energy: {summary.energy_level} | emotion_confidence:{" "}
+                    {summary.emotion_confidence}
+                  </div>
+                </div>
+              )}
+
+              {tasks.length > 0 && (
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-slate-900">Tasks</h3>
+                  <ul className="space-y-2 text-slate-600">
+                    {tasks.map((task, index) => (
+                      <li key={`${task.task_text}-${index}`}>
+                        {task.task_text}{" "}
+                        <span className="text-xs text-slate-400">
+                          ({task.category} • model_confidence: {task.confidence})
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Features */}
         <Card className="card-base">

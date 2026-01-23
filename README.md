@@ -45,8 +45,6 @@ Knowledge workers end their days feeling busy but unclear about what they actual
 ```
 User records voice (3 min)
      ↓
-Upload to Supabase Storage
-     ↓
 Gemini API processes:
   1. Transcription (5s)
   2. Summary generation (3s)
@@ -54,10 +52,12 @@ Gemini API processes:
      ↓
 User validates summary + tasks
      ↓
-Audio deleted, data saved
+Audio never stored (processed from local blob), data saved
      ↓
 Dashboard + Insights
 ```
+
+Note: We initially planned to upload audio to Supabase Storage before processing. For privacy and simplicity, the MVP processes the local audio blob directly with Gemini and avoids storing audio at all.
 
 ---
 
