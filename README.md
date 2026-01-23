@@ -28,7 +28,7 @@ Knowledge workers end their days feeling busy but unclear about what they actual
 **Choreo** is a voice-first AI work journal that requires only **3 minutes per day**:
 
 1. **Record** a quick voice reflection at end-of-day
-2. **AI generates** a structured summary (Wins / Energy Drains / Tomorrow's Focus)
+2. **AI generates** a structured summary (Wins / Energy Drains / Future Focus)
 3. **AI extracts** completed tasks automatically
 4. **Insights** reveal your productivity patterns over time
 5. **Privacy-first:** Audio deleted immediately after transcription
@@ -90,7 +90,7 @@ Dashboard + Insights
 ### Core Features (MVP)
 - [ ] Voice Recording (3-min limit, countdown timer, waveform visualization)
 - [ ] AI Transcription (Gemini API, <5 seconds)
-- [ ] AI Summary Generation (Wins / Energy Drains / Tomorrow's Focus)
+- [ ] AI Summary Generation (Wins / Energy Drains / Future Focus)
 - [ ] AI Task Extraction (with categories & confidence scores)
 - [ ] Human Validation (edit summary items, accept/reject tasks)
 - [ ] Audio Deletion (privacy-first: deleted immediately after processing)
@@ -122,7 +122,7 @@ Without observability, we'd be deploying AI blind. Opik gives us data-driven con
 
 **What We Store:**
 - Text transcriptions
-- Summaries (Wins/Drains/Focus)
+- Summaries (Wins/Drains/Future Focus)
 - Extracted tasks
 - User email (for authentication)
 

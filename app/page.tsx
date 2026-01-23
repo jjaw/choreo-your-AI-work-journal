@@ -1,6 +1,6 @@
+import { VoiceRecorder } from "@/components/VoiceRecorder"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 
 export default function Home() {
   return (
@@ -19,40 +19,7 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Recording Card */}
-        <Card className="card-base">
-          <CardHeader>
-            <CardTitle className="text-slate-900">Daily Reflection</CardTitle>
-            <CardDescription className="text-slate-600">
-              Record a 3-minute voice reflection about your workday
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Progress */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm text-slate-600">
-                <span>Recording Progress</span>
-                <span>45 / 180 seconds</span>
-              </div>
-              <Progress value={25} className="h-2" />
-            </div>
-
-            {/* Status - Using brand colors */}
-            <div className="text-center p-4 bg-brand-100 border border-brand-200 rounded-lg">
-              <p className="text-sm text-brand-700">
-                Ready to record your reflection
-              </p>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-center gap-4">
-            <Button size="lg" className="bg-brand-600 hover:bg-brand-700 text-white">
-              Start Recording
-            </Button>
-            <Button variant="outline" size="lg" className="border-slate-300 text-slate-700 hover:bg-slate-50">
-              View Demo
-            </Button>
-          </CardFooter>
-        </Card>
+        <VoiceRecorder />
 
         {/* Features */}
         <Card className="card-base">
@@ -106,7 +73,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Tomorrow's Focus - Using brand colors */}
+            {/* Future Focus - Using brand colors */}
             <div className="space-y-2">
               <h3 className="font-semibold text-slate-900 text-sm">Future Focus</h3>
               <div className="space-y-1 text-sm text-slate-700 bg-brand-100 border border-brand-200 rounded-lg p-3">
