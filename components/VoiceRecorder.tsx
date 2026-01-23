@@ -27,6 +27,7 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState<string | null>(null)
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const mediaStreamRef = useRef<MediaStream | null>(null)
@@ -149,6 +150,7 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
 
   const startRecording = async () => {
     setError(null)
+    setSubmitMessage(null)
     setAudioBlob(null)
     setElapsedSeconds(0)
     setRecorderState("recording")
@@ -225,11 +227,14 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
     setElapsedSeconds(0)
     setAudioBlob(null)
     setError(null)
+    setSubmitMessage(null)
   }
 
   const handleSubmit = async () => {
     if (!audioBlob) return
     setIsSubmitting(true)
+    setSubmitMessage(null)
+    setError(null)
     try {
       const payload: RecordingPayload = {
         audioBlob,
@@ -237,11 +242,32 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
         fileSizeBytes: audioBlob.size,
         recordedAt: new Date().toISOString(),
       }
+
       if (onSubmit) {
         await onSubmit(payload)
-      } else {
-        console.info("Recording ready", payload)
+        return
       }
+
+      const formData = new FormData()
+      formData.append("audio", audioBlob, `recording.${audioBlob.type === "audio/mpeg" ? "mp3" : "webm"}`)
+      formData.append("durationSeconds", String(elapsedSeconds))
+      formData.append("recordedAt", payload.recordedAt)
+
+      const response = await fetch("/api/upload-audio", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const { error: responseError } = await response.json().catch(() => ({}))
+        throw new Error(responseError ?? "Failed to upload recording")
+      }
+
+      handleReset()
+      setSubmitMessage("Recording uploaded successfully. Ready for transcription.")
+    } catch (submissionError) {
+      console.error("Failed to submit reflection", submissionError)
+      setError(submissionError instanceof Error ? submissionError.message : "Failed to submit recording.")
     } finally {
       setIsSubmitting(false)
     }
@@ -351,6 +377,7 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
         </div>
 
         {error && <p className="text-sm text-red-600">{error}</p>}
+        {submitMessage && <p className="text-sm text-green-600">{submitMessage}</p>}
 
         {audioBlob && recorderState === "review" && (
           <div className="space-y-3 text-sm text-slate-600">
