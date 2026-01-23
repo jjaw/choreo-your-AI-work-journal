@@ -191,7 +191,7 @@ Without observability, we'd be deploying AI blind. Opik gives us data-driven con
 ### Current Status
 - [x] Project setup
 - [x] Repository created
-- [ ] Voice recording component
+- [x] Voice recording component
 - [ ] AI integration
 - [ ] Validation UI
 - [ ] Dashboard
