@@ -9,7 +9,7 @@ const ALLOWED_MIME_TYPES = ["audio/webm", "audio/webm;codecs=opus", "audio/mpeg"
 type SummaryPayload = {
   wins: string[]
   drains: string[]
-  tomorrow_focus: string[]
+  future_focus: string[]
   emotional_tone: string
   energy_level: string
   emotion_confidence: "low" | "medium" | "high"
@@ -18,7 +18,7 @@ type SummaryPayload = {
 const emptySummary: SummaryPayload = {
   wins: [],
   drains: [],
-  tomorrow_focus: [],
+  future_focus: [],
   emotional_tone: "unknown",
   energy_level: "unknown",
   emotion_confidence: "low",
@@ -32,7 +32,7 @@ function safeParseSummary(raw: string): SummaryPayload {
     return {
       wins: Array.isArray(parsed.wins) ? parsed.wins.filter(Boolean) : [],
       drains: Array.isArray(parsed.drains) ? parsed.drains.filter(Boolean) : [],
-      tomorrow_focus: Array.isArray(parsed.tomorrow_focus) ? parsed.tomorrow_focus.filter(Boolean) : [],
+      future_focus: Array.isArray(parsed.future_focus) ? parsed.future_focus.filter(Boolean) : [],
       emotional_tone: typeof parsed.emotional_tone === "string" ? parsed.emotional_tone : "unknown",
       energy_level: typeof parsed.energy_level === "string" ? parsed.energy_level : "unknown",
       emotion_confidence:
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
         "You are summarizing a user's workday reflection.",
         "Use the transcript text and, if present, the audio tone to infer emotional tone and energy level.",
         "Return strict JSON only with these keys:",
-        "wins (array of strings), drains (array of strings), tomorrow_focus (array of strings),",
+        "wins (array of strings), drains (array of strings), future_focus (array of strings),",
         "emotional_tone (string), energy_level (string), emotion_confidence (low|medium|high).",
       ].join(" "),
       `Transcript:\n${transcript}`,

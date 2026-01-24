@@ -10,7 +10,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 type SummaryPayload = {
   wins: string[]
   drains: string[]
-  tomorrow_focus: string[]
+  future_focus: string[]
   emotional_tone: string
   energy_level: string
   emotion_confidence: "low" | "medium" | "high"
@@ -258,9 +258,9 @@ export default function Home() {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-slate-900">Tomorrow Focus</h3>
+                    <h3 className="font-semibold text-slate-900">Future Focus</h3>
                     <ul className="list-disc list-inside text-slate-600">
-                      {summary.tomorrow_focus.map((item) => (
+                      {summary.future_focus.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
