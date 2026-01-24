@@ -1,7 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { VoiceRecorder, type RecordingPayload } from "@/components/VoiceRecorder"
+import { supabase } from "@/lib/supabase/client"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 
@@ -27,9 +29,51 @@ export default function Home() {
   const [summary, setSummary] = useState<SummaryPayload | null>(null)
   const [tasks, setTasks] = useState<TaskItem[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [guestCount, setGuestCount] = useState<number>(0)
+  const [hasHydrated, setHasHydrated] = useState(false)
   const [lastPayload, setLastPayload] = useState<RecordingPayload | null>(null)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+
+  const isAuthenticated = Boolean(userEmail)
+  const isGuestLimitReached = !isAuthenticated && guestCount >= 1
+  const recorderLimitSeconds = useMemo(() => (isAuthenticated ? 180 : 45), [isAuthenticated])
+
+  useEffect(() => {
+    const storedCount = Number(window.localStorage.getItem("guestRecordingCount") ?? "0")
+    setGuestCount(Number.isFinite(storedCount) ? storedCount : 0)
+    setHasHydrated(true)
+  }, [])
+
+  useEffect(() => {
+    let isMounted = true
+    const loadUser = async () => {
+      const { data } = await supabase.auth.getUser()
+      if (!isMounted) return
+      setUserEmail(data.user?.email ?? null)
+    }
+    loadUser()
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUserEmail(session?.user?.email ?? null)
+    })
+    return () => {
+      isMounted = false
+      authListener.subscription.unsubscribe()
+    }
+  }, [])
+
+  const incrementGuestCount = () => {
+    if (isAuthenticated) return
+    const nextCount = guestCount + 1
+    setGuestCount(nextCount)
+    window.localStorage.setItem("guestRecordingCount", String(nextCount))
+  }
 
   const handleSubmit = async (payload: RecordingPayload) => {
+    if (isGuestLimitReached) {
+      setError("Guest limit reached. Please sign up to continue.")
+      return
+    }
+
     setIsProcessing(true)
     setUploadStatus(null)
     setTranscript(null)
@@ -82,6 +126,7 @@ export default function Home() {
       const tasksJson = await tasksResponse.json()
       setTasks(tasksJson.tasks?.tasks ?? [])
       setUploadStatus("Processing complete.")
+      incrementGuestCount()
     } catch (submitError) {
       console.error("Processing failed", submitError)
       setError(submitError instanceof Error ? submitError.message : "Something went wrong.")
@@ -99,6 +144,27 @@ export default function Home() {
   return (
     <main className="page-layout">
       <div className="max-w-2xl w-full space-y-8">
+        <div className="flex items-center justify-between">
+          <div className="text-xs text-slate-500">
+            {isAuthenticated ? `Signed in as ${userEmail}` : "Guest mode: 1 recording, 45 seconds"}
+          </div>
+          {isAuthenticated ? (
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-slate-300 text-slate-700 hover:bg-slate-50"
+              onClick={() => supabase.auth.signOut()}
+            >
+              Sign out
+            </Button>
+          ) : (
+            <Link href="/login">
+              <Button size="sm" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-50">
+                Sign up or log in
+              </Button>
+            </Link>
+          )}
+        </div>
         {/* Hero */}
         <div className="text-center space-y-4">
           <h1 className="text-5xl font-bold text-slate-900">
@@ -112,7 +178,27 @@ export default function Home() {
           </p>
         </div>
 
-        <VoiceRecorder onSubmit={handleSubmit} />
+        {hasHydrated && !isGuestLimitReached && (
+          <VoiceRecorder onSubmit={handleSubmit} maxDurationSeconds={recorderLimitSeconds} />
+        )}
+
+        {hasHydrated && isGuestLimitReached && (
+          <Card className="card-base">
+            <CardHeader>
+              <CardTitle className="text-lg text-slate-900">Guest limit reached</CardTitle>
+              <CardDescription className="text-slate-600">
+                You’ve used your guest recording. Sign up to keep journaling.
+              </CardDescription>
+            </CardHeader>
+            <CardFooter>
+              <Link href="/login">
+                <Button size="lg" className="bg-brand-600 hover:bg-brand-700 text-white">
+                  Sign up free
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        )}
 
         {(isProcessing || uploadStatus || error) && (
           <Card className="card-base">
@@ -293,11 +379,15 @@ export default function Home() {
         </Card>
 
         {/* CTA */}
-        <div className="text-center">
-          <Button size="lg" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-50">
-            Sign Up Free
-          </Button>
-        </div>
+        {!isAuthenticated && (
+          <div className="text-center">
+            <Link href="/login">
+              <Button size="lg" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-50">
+                Sign Up Free
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </main>
   )
