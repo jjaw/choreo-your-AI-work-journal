@@ -124,8 +124,35 @@ export default function Home() {
         throw new Error(tasksError ?? "Failed to extract tasks")
       }
       const tasksJson = await tasksResponse.json()
-      setTasks(tasksJson.tasks?.tasks ?? [])
-      setUploadStatus("Processing complete.")
+      const extractedTasks = tasksJson.tasks?.tasks ?? []
+      setTasks(extractedTasks)
+
+      const authToken = (await supabase.auth.getSession()).data.session?.access_token
+      if (authToken) {
+        const saveResponse = await fetch("/api/save-reflection", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify({
+            transcript: transcriptText,
+            summary: summaryJson.summary,
+            tasks: extractedTasks,
+            recorded_at: payload.recordedAt,
+            duration_seconds: payload.durationSeconds,
+            audio_file_size_mb: Number((payload.fileSizeBytes / 1024 / 1024).toFixed(2)),
+          }),
+        })
+
+        if (!saveResponse.ok) {
+          const { error: saveError } = await saveResponse.json().catch(() => ({}))
+          throw new Error(saveError ?? "Failed to save reflection")
+        }
+        setUploadStatus("Processing complete and saved.")
+      } else {
+        setUploadStatus("Processing complete (guest mode).")
+      }
       incrementGuestCount()
     } catch (submitError) {
       console.error("Processing failed", submitError)
@@ -210,6 +237,12 @@ export default function Home() {
             </CardHeader>
             <CardContent className="space-y-2 text-sm text-slate-700">
               {uploadStatus && <p>{uploadStatus}</p>}
+              {isAuthenticated && uploadStatus === "Processing complete and saved." && (
+                <p className="text-xs text-slate-500">Saved to your journal.</p>
+              )}
+              {!isAuthenticated && uploadStatus === "Processing complete (guest mode)." && (
+                <p className="text-xs text-slate-500">Sign up to save this reflection and unlock daily insights.</p>
+              )}
               {error && <p className="text-red-600">{error}</p>}
               {error && lastPayload && (
                 <div className="space-y-1">
