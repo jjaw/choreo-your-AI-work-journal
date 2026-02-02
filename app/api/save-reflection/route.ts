@@ -83,7 +83,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to save transcription" }, { status: 500 })
     }
 
-    const { error: summaryError } = await supabaseAdmin.from("daily_summaries").insert({
+    const { data: summaryRow, error: summaryError } = await supabaseAdmin.from("daily_summaries").insert({
       voice_note_id: voiceNote.id,
       user_id: userId,
       wins: summary.wins,
@@ -95,15 +95,16 @@ export async function POST(request: Request) {
       original_wins: summary.wins,
       original_drains: summary.drains,
       original_future_focus: summary.future_focus,
-    })
+    }).select("id").single()
 
     if (summaryError) {
       console.error("[save-reflection] daily_summaries insert failed", summaryError)
       return NextResponse.json({ error: "Failed to save summary" }, { status: 500 })
     }
 
+    let taskRows: Array<{ id: string; task_text: string }> = []
     if (tasks?.length) {
-      const { error: taskError } = await supabaseAdmin.from("tasks").insert(
+      const { data: insertedTasks, error: taskError } = await supabaseAdmin.from("tasks").insert(
         tasks.map((task) => ({
           transcription_id: transcription.id,
           user_id: userId,
@@ -113,17 +114,20 @@ export async function POST(request: Request) {
           ai_extracted: true,
           original_ai_text: task.task_text,
         }))
-      )
+      ).select("id, task_text")
 
       if (taskError) {
         console.error("[save-reflection] tasks insert failed", taskError)
         return NextResponse.json({ error: "Failed to save tasks" }, { status: 500 })
       }
+      taskRows = insertedTasks ?? []
     }
 
     return NextResponse.json({
       voice_note_id: voiceNote.id,
       transcription_id: transcription.id,
+      summary_id: summaryRow?.id ?? null,
+      tasks: taskRows,
     })
   } catch (error) {
     console.error("[save-reflection] Unexpected error", error)

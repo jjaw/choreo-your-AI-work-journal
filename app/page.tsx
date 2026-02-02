@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { VoiceRecorder, type RecordingPayload } from "@/components/VoiceRecorder"
 import { supabase } from "@/lib/supabase/client"
 import Link from "next/link"
@@ -33,6 +33,14 @@ export default function Home() {
   const [hasHydrated, setHasHydrated] = useState(false)
   const [lastPayload, setLastPayload] = useState<RecordingPayload | null>(null)
   const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [summaryId, setSummaryId] = useState<string | null>(null)
+  const [voiceNoteId, setVoiceNoteId] = useState<string | null>(null)
+  const [validationSummary, setValidationSummary] = useState<SummaryPayload | null>(null)
+  const [validationTasks, setValidationTasks] = useState<Array<TaskItem & { id: string; human_accepted: boolean }>>([])
+  const [isSavingValidation, setIsSavingValidation] = useState(false)
+  const [validationSaved, setValidationSaved] = useState(false)
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const isAuthenticated = Boolean(userEmail)
   const isGuestLimitReached = !isAuthenticated && guestCount >= 1
@@ -42,6 +50,14 @@ export default function Home() {
     const storedCount = Number(window.localStorage.getItem("guestRecordingCount") ?? "0")
     setGuestCount(Number.isFinite(storedCount) ? storedCount : 0)
     setHasHydrated(true)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) {
+        clearTimeout(toastTimerRef.current)
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -149,6 +165,18 @@ export default function Home() {
           const { error: saveError } = await saveResponse.json().catch(() => ({}))
           throw new Error(saveError ?? "Failed to save reflection")
         }
+        const saveJson = await saveResponse.json()
+        setSummaryId(saveJson.summary_id ?? null)
+        setVoiceNoteId(saveJson.voice_note_id ?? null)
+        setValidationSummary(summaryJson.summary ?? null)
+        setValidationTasks(
+          extractedTasks.map((task: TaskItem, index: number) => ({
+            ...task,
+            id: saveJson.tasks?.[index]?.id ?? `${index}`,
+            human_accepted: true,
+          }))
+        )
+        setValidationSaved(false)
         setUploadStatus("Processing complete and saved.")
       } else {
         setUploadStatus("Processing complete (guest mode).")
@@ -168,8 +196,55 @@ export default function Home() {
     await handleSubmit(lastPayload)
   }
 
+  const handleValidationSave = async () => {
+    if (!validationSummary || !summaryId || !voiceNoteId) return
+    const authToken = (await supabase.auth.getSession()).data.session?.access_token
+    if (!authToken) return
+    setIsSavingValidation(true)
+    try {
+      const response = await fetch("/api/validate-reflection", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          summary_id: summaryId,
+          voice_note_id: voiceNoteId,
+          summary: validationSummary,
+          tasks: validationTasks.map((task) => ({
+            id: task.id,
+            task_text: task.task_text,
+            human_accepted: task.human_accepted,
+          })),
+        }),
+      })
+      if (!response.ok) {
+        const { error: validationError } = await response.json().catch(() => ({}))
+        throw new Error(validationError ?? "Failed to save validation")
+      }
+      setValidationSaved(true)
+      setToastMessage("Validation saved.")
+      if (toastTimerRef.current) {
+        clearTimeout(toastTimerRef.current)
+      }
+      toastTimerRef.current = setTimeout(() => {
+        setToastMessage(null)
+      }, 2500)
+    } catch (validationError) {
+      setError(validationError instanceof Error ? validationError.message : "Failed to save validation.")
+    } finally {
+      setIsSavingValidation(false)
+    }
+  }
+
   return (
     <main className="page-layout">
+      {toastMessage && (
+        <div className="fixed right-6 top-6 z-50 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 shadow-lg">
+          {toastMessage}
+        </div>
+      )}
       <div className="max-w-2xl w-full space-y-8">
         <div className="flex items-center justify-between">
           <div className="text-xs text-slate-500">
@@ -306,21 +381,190 @@ export default function Home() {
               )}
 
               {tasks.length > 0 && (
-                <div className="space-y-2">
-                  <h3 className="font-semibold text-slate-900">Tasks</h3>
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="font-semibold text-slate-900">Completed Actions</h3>
+                      <p className="text-xs text-slate-500">Actions the AI extracted from your reflection.</p>
+                    </div>
+                    <span
+                      className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 text-xs text-slate-500"
+                      title="Categories: creating (making deliverables), collaborating (meetings), communicating (messages), organizing (admin/planning)."
+                      aria-label="Category legend"
+                    >
+                      ?
+                    </span>
+                  </div>
                   <ul className="space-y-2 text-slate-600">
                     {tasks.map((task, index) => (
-                      <li key={`${task.task_text}-${index}`}>
-                        {task.task_text}{" "}
-                        <span className="text-xs text-slate-400">
-                          ({task.category} • model_confidence: {task.confidence})
+                      <li
+                        key={`${task.task_text}-${index}`}
+                        className="flex items-center gap-2 rounded-md border border-slate-200 px-3 py-2"
+                      >
+                        <span
+                          className={`text-xs px-2 py-0.5 rounded-full ${
+                            task.category === "creating"
+                              ? "bg-brand-100 text-brand-700"
+                              : task.category === "collaborating"
+                                ? "bg-warning-50 text-warning-700"
+                                : task.category === "communicating"
+                                  ? "bg-slate-200 text-slate-700"
+                                  : "bg-success-50 text-success-700"
+                          }`}
+                        >
+                          {task.category}
                         </span>
+                        <span className="text-sm text-slate-700">{task.task_text}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
             </CardContent>
+          </Card>
+        )}
+
+        {isAuthenticated && validationSummary && (
+          <Card className="card-base">
+            <CardHeader>
+              <CardTitle className="text-lg text-slate-900">Validate your reflection</CardTitle>
+              <CardDescription className="text-slate-600">Quick edits help improve future summaries.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6 text-sm text-slate-700">
+              <div className="space-y-3">
+                <h3 className="font-semibold text-slate-900">Wins</h3>
+                {validationSummary.wins.map((item, index) => (
+                  <input
+                    key={`wins-${index}`}
+                    value={item}
+                    onChange={(event) => {
+                      const next = [...validationSummary.wins]
+                      next[index] = event.target.value
+                      setValidationSummary({ ...validationSummary, wins: next })
+                    }}
+                    className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm"
+                  />
+                ))}
+                <Button
+                  variant="outline"
+                  onClick={() => setValidationSummary({ ...validationSummary, wins: [...validationSummary.wins, ""] })}
+                >
+                  Add win
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="font-semibold text-slate-900">Energy Drains</h3>
+                {validationSummary.drains.map((item, index) => (
+                  <input
+                    key={`drains-${index}`}
+                    value={item}
+                    onChange={(event) => {
+                      const next = [...validationSummary.drains]
+                      next[index] = event.target.value
+                      setValidationSummary({ ...validationSummary, drains: next })
+                    }}
+                    className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm"
+                  />
+                ))}
+                <Button
+                  variant="outline"
+                  onClick={() => setValidationSummary({ ...validationSummary, drains: [...validationSummary.drains, ""] })}
+                >
+                  Add drain
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="font-semibold text-slate-900">Future Focus</h3>
+                {validationSummary.future_focus.map((item, index) => (
+                  <input
+                    key={`focus-${index}`}
+                    value={item}
+                    onChange={(event) => {
+                      const next = [...validationSummary.future_focus]
+                      next[index] = event.target.value
+                      setValidationSummary({ ...validationSummary, future_focus: next })
+                    }}
+                    className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm"
+                  />
+                ))}
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    setValidationSummary({ ...validationSummary, future_focus: [...validationSummary.future_focus, ""] })
+                  }
+                >
+                  Add focus
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="font-semibold text-slate-900">Completed Actions</h3>
+                    <p className="text-xs text-slate-500">Defaults accepted. Edit only if something looks off.</p>
+                  </div>
+                  <span
+                    className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 text-xs text-slate-500"
+                    title="Categories: creating (making deliverables), collaborating (meetings), communicating (messages), organizing (admin/planning)."
+                    aria-label="Category legend"
+                  >
+                    ?
+                  </span>
+                </div>
+                {validationTasks.map((task, index) => (
+                  <div key={`task-${task.id}-${index}`} className="flex flex-col gap-2 rounded-md border border-slate-200 p-3">
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full ${
+                          task.category === "creating"
+                            ? "bg-brand-100 text-brand-700"
+                            : task.category === "collaborating"
+                              ? "bg-warning-50 text-warning-700"
+                              : task.category === "communicating"
+                                ? "bg-slate-200 text-slate-700"
+                                : "bg-success-50 text-success-700"
+                        }`}
+                      >
+                        {task.category}
+                      </span>
+                      <label className="flex items-center gap-2 text-xs text-slate-600">
+                        <input
+                          type="checkbox"
+                          checked={task.human_accepted}
+                          onChange={(event) => {
+                            const next = [...validationTasks]
+                            next[index] = { ...task, human_accepted: event.target.checked }
+                            setValidationTasks(next)
+                          }}
+                        />
+                        Accept
+                      </label>
+                    </div>
+                    <input
+                      value={task.task_text}
+                      onChange={(event) => {
+                        const next = [...validationTasks]
+                        next[index] = { ...task, task_text: event.target.value }
+                        setValidationTasks(next)
+                      }}
+                      className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm"
+                    />
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button
+                className="bg-brand-600 hover:bg-brand-700 text-white"
+                disabled={isSavingValidation || validationSaved}
+                onClick={handleValidationSave}
+              >
+                {validationSaved ? "Saved" : isSavingValidation ? "Saving..." : "Confirm & Save"}
+              </Button>
+              {validationSaved && <p className="ml-3 text-xs text-slate-500">Saved feedback.</p>}
+            </CardFooter>
           </Card>
         )}
 
