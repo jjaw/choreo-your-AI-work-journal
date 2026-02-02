@@ -1,0 +1,1056 @@
+{
+  "version": "v1",
+  "created_at": "2026-02-02T21:51:01.897Z",
+  "samples": [
+    {
+      "id": "sample_01",
+      "role": "product designer",
+      "transcript": "Today as a product designer, it felt like a steady day overall. Big wins were finalized the onboarding flow and polished the empty state illustrations. I also spent time on finalize onboarding flow, polish empty state illustrations, design review with mobile team. The main drain was context switching between design reviews. Next up, I need to prepare the handoff for engineering. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Finalized the onboarding flow",
+          "Polished the empty state illustrations"
+        ],
+        "drains": [
+          "Context switching between design reviews"
+        ],
+        "future_focus": [
+          "Prepare the handoff for engineering"
+        ],
+        "tasks": [
+          {
+            "task_text": "Finalize onboarding flow",
+            "category": "creating"
+          },
+          {
+            "task_text": "Polish empty state illustrations",
+            "category": "creating"
+          },
+          {
+            "task_text": "Design review with mobile team",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Send handoff notes to engineering",
+            "category": "communicating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_02",
+      "role": "product designer",
+      "transcript": "Today as a product designer, the morning was a blur but the afternoon clicked. Big wins were finalized the onboarding flow and polished the empty state illustrations. I also spent time on finalize onboarding flow, polish empty state illustrations, design review with mobile team. The main drain was context switching between design reviews. Next up, I need to prepare the handoff for engineering. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Finalized the onboarding flow",
+          "Polished the empty state illustrations"
+        ],
+        "drains": [
+          "Context switching between design reviews"
+        ],
+        "future_focus": [
+          "Prepare the handoff for engineering"
+        ],
+        "tasks": [
+          {
+            "task_text": "Finalize onboarding flow",
+            "category": "creating"
+          },
+          {
+            "task_text": "Polish empty state illustrations",
+            "category": "creating"
+          },
+          {
+            "task_text": "Design review with mobile team",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Send handoff notes to engineering",
+            "category": "communicating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_03",
+      "role": "frontend engineer",
+      "transcript": "Today as a frontend engineer, it felt like a steady day overall. Big wins were shipped the landing page update and fixed the auth redirect bug. I also spent time on ship landing page update, fix auth redirect bug, daily standup meeting. The main drain was back-to-back standups. Next up, I need to refactor the profile settings module. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Shipped the landing page update",
+          "Fixed the auth redirect bug"
+        ],
+        "drains": [
+          "Back-to-back standups"
+        ],
+        "future_focus": [
+          "Refactor the profile settings module"
+        ],
+        "tasks": [
+          {
+            "task_text": "Ship landing page update",
+            "category": "creating"
+          },
+          {
+            "task_text": "Fix auth redirect bug",
+            "category": "creating"
+          },
+          {
+            "task_text": "Daily standup meeting",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Review PR for analytics events",
+            "category": "collaborating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_04",
+      "role": "frontend engineer",
+      "transcript": "Today as a frontend engineer, the morning was a blur but the afternoon clicked. Big wins were shipped the landing page update and fixed the auth redirect bug. I also spent time on ship landing page update, fix auth redirect bug, daily standup meeting. The main drain was back-to-back standups. Next up, I need to refactor the profile settings module. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Shipped the landing page update",
+          "Fixed the auth redirect bug"
+        ],
+        "drains": [
+          "Back-to-back standups"
+        ],
+        "future_focus": [
+          "Refactor the profile settings module"
+        ],
+        "tasks": [
+          {
+            "task_text": "Ship landing page update",
+            "category": "creating"
+          },
+          {
+            "task_text": "Fix auth redirect bug",
+            "category": "creating"
+          },
+          {
+            "task_text": "Daily standup meeting",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Review PR for analytics events",
+            "category": "collaborating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_05",
+      "role": "marketing manager",
+      "transcript": "Today as a marketing manager, it felt like a steady day overall. Big wins were drafted the q2 campaign brief and locked the influencer shortlist. I also spent time on draft q2 campaign brief, finalize influencer shortlist, vendor negotiation call. The main drain was a long vendor negotiation call. Next up, I need to get legal approval for ad copy. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Drafted the Q2 campaign brief",
+          "Locked the influencer shortlist"
+        ],
+        "drains": [
+          "A long vendor negotiation call"
+        ],
+        "future_focus": [
+          "Get legal approval for ad copy"
+        ],
+        "tasks": [
+          {
+            "task_text": "Draft Q2 campaign brief",
+            "category": "creating"
+          },
+          {
+            "task_text": "Finalize influencer shortlist",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Vendor negotiation call",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Email legal about ad copy review",
+            "category": "communicating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_06",
+      "role": "marketing manager",
+      "transcript": "Today as a marketing manager, the morning was a blur but the afternoon clicked. Big wins were drafted the q2 campaign brief and locked the influencer shortlist. I also spent time on draft q2 campaign brief, finalize influencer shortlist, vendor negotiation call. The main drain was a long vendor negotiation call. Next up, I need to get legal approval for ad copy. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Drafted the Q2 campaign brief",
+          "Locked the influencer shortlist"
+        ],
+        "drains": [
+          "A long vendor negotiation call"
+        ],
+        "future_focus": [
+          "Get legal approval for ad copy"
+        ],
+        "tasks": [
+          {
+            "task_text": "Draft Q2 campaign brief",
+            "category": "creating"
+          },
+          {
+            "task_text": "Finalize influencer shortlist",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Vendor negotiation call",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Email legal about ad copy review",
+            "category": "communicating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_07",
+      "role": "operations lead",
+      "transcript": "Today as a operations lead, it felt like a steady day overall. Big wins were updated the weekly staffing plan and cleared the backlog of approvals. I also spent time on update weekly staffing plan, approve pending time off requests, follow up on missing timesheets. The main drain was chasing missing timesheets. Next up, I need to automate the approval workflow. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Updated the weekly staffing plan",
+          "Cleared the backlog of approvals"
+        ],
+        "drains": [
+          "Chasing missing timesheets"
+        ],
+        "future_focus": [
+          "Automate the approval workflow"
+        ],
+        "tasks": [
+          {
+            "task_text": "Update weekly staffing plan",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Approve pending time off requests",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Follow up on missing timesheets",
+            "category": "communicating"
+          },
+          {
+            "task_text": "Sync with HR on scheduling gaps",
+            "category": "collaborating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_08",
+      "role": "operations lead",
+      "transcript": "Today as a operations lead, the morning was a blur but the afternoon clicked. Big wins were updated the weekly staffing plan and cleared the backlog of approvals. I also spent time on update weekly staffing plan, approve pending time off requests, follow up on missing timesheets. The main drain was chasing missing timesheets. Next up, I need to automate the approval workflow. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Updated the weekly staffing plan",
+          "Cleared the backlog of approvals"
+        ],
+        "drains": [
+          "Chasing missing timesheets"
+        ],
+        "future_focus": [
+          "Automate the approval workflow"
+        ],
+        "tasks": [
+          {
+            "task_text": "Update weekly staffing plan",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Approve pending time off requests",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Follow up on missing timesheets",
+            "category": "communicating"
+          },
+          {
+            "task_text": "Sync with HR on scheduling gaps",
+            "category": "collaborating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_09",
+      "role": "customer success",
+      "transcript": "Today as a customer success, it felt like a steady day overall. Big wins were onboarded the new enterprise account and resolved two critical tickets. I also spent time on onboard new enterprise account, resolve critical support tickets, escalation call with support. The main drain was late-night escalation with support. Next up, I need to draft the quarterly health report. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Onboarded the new enterprise account",
+          "Resolved two critical tickets"
+        ],
+        "drains": [
+          "Late-night escalation with support"
+        ],
+        "future_focus": [
+          "Draft the quarterly health report"
+        ],
+        "tasks": [
+          {
+            "task_text": "Onboard new enterprise account",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Resolve critical support tickets",
+            "category": "creating"
+          },
+          {
+            "task_text": "Escalation call with support",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Outline quarterly health report",
+            "category": "creating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_10",
+      "role": "customer success",
+      "transcript": "Today as a customer success, the morning was a blur but the afternoon clicked. Big wins were onboarded the new enterprise account and resolved two critical tickets. I also spent time on onboard new enterprise account, resolve critical support tickets, escalation call with support. The main drain was late-night escalation with support. Next up, I need to draft the quarterly health report. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Onboarded the new enterprise account",
+          "Resolved two critical tickets"
+        ],
+        "drains": [
+          "Late-night escalation with support"
+        ],
+        "future_focus": [
+          "Draft the quarterly health report"
+        ],
+        "tasks": [
+          {
+            "task_text": "Onboard new enterprise account",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Resolve critical support tickets",
+            "category": "creating"
+          },
+          {
+            "task_text": "Escalation call with support",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Outline quarterly health report",
+            "category": "creating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_11",
+      "role": "data analyst",
+      "transcript": "Today as a data analyst, it felt like a steady day overall. Big wins were built the revenue cohort dashboard and validated the churn model inputs. I also spent time on build revenue cohort dashboard, validate churn model inputs, document data inconsistencies. The main drain was rework due to inconsistent source data. Next up, I need to share insights with finance. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Built the revenue cohort dashboard",
+          "Validated the churn model inputs"
+        ],
+        "drains": [
+          "Rework due to inconsistent source data"
+        ],
+        "future_focus": [
+          "Share insights with finance"
+        ],
+        "tasks": [
+          {
+            "task_text": "Build revenue cohort dashboard",
+            "category": "creating"
+          },
+          {
+            "task_text": "Validate churn model inputs",
+            "category": "creating"
+          },
+          {
+            "task_text": "Document data inconsistencies",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Send insights summary to finance",
+            "category": "communicating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_12",
+      "role": "data analyst",
+      "transcript": "Today as a data analyst, the morning was a blur but the afternoon clicked. Big wins were built the revenue cohort dashboard and validated the churn model inputs. I also spent time on build revenue cohort dashboard, validate churn model inputs, document data inconsistencies. The main drain was rework due to inconsistent source data. Next up, I need to share insights with finance. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Built the revenue cohort dashboard",
+          "Validated the churn model inputs"
+        ],
+        "drains": [
+          "Rework due to inconsistent source data"
+        ],
+        "future_focus": [
+          "Share insights with finance"
+        ],
+        "tasks": [
+          {
+            "task_text": "Build revenue cohort dashboard",
+            "category": "creating"
+          },
+          {
+            "task_text": "Validate churn model inputs",
+            "category": "creating"
+          },
+          {
+            "task_text": "Document data inconsistencies",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Send insights summary to finance",
+            "category": "communicating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_13",
+      "role": "project manager",
+      "transcript": "Today as a project manager, it felt like a steady day overall. Big wins were aligned the roadmap with stakeholders and closed sprint scope. I also spent time on roadmap alignment meeting, close sprint scope, respond to status check emails. The main drain was too many ad-hoc status checks. Next up, I need to prepare sprint kickoff agenda. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Aligned the roadmap with stakeholders",
+          "Closed sprint scope"
+        ],
+        "drains": [
+          "Too many ad-hoc status checks"
+        ],
+        "future_focus": [
+          "Prepare sprint kickoff agenda"
+        ],
+        "tasks": [
+          {
+            "task_text": "Roadmap alignment meeting",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Close sprint scope",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Respond to status check emails",
+            "category": "communicating"
+          },
+          {
+            "task_text": "Draft sprint kickoff agenda",
+            "category": "organizing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_14",
+      "role": "project manager",
+      "transcript": "Today as a project manager, the morning was a blur but the afternoon clicked. Big wins were aligned the roadmap with stakeholders and closed sprint scope. I also spent time on roadmap alignment meeting, close sprint scope, respond to status check emails. The main drain was too many ad-hoc status checks. Next up, I need to prepare sprint kickoff agenda. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Aligned the roadmap with stakeholders",
+          "Closed sprint scope"
+        ],
+        "drains": [
+          "Too many ad-hoc status checks"
+        ],
+        "future_focus": [
+          "Prepare sprint kickoff agenda"
+        ],
+        "tasks": [
+          {
+            "task_text": "Roadmap alignment meeting",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Close sprint scope",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Respond to status check emails",
+            "category": "communicating"
+          },
+          {
+            "task_text": "Draft sprint kickoff agenda",
+            "category": "organizing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_15",
+      "role": "nurse lead",
+      "transcript": "Today as a nurse lead, it felt like a steady day overall. Big wins were completed patient discharge summaries and updated medication charts before rounds. I also spent time on complete patient discharge summaries, update medication charts, wound care rounds. The main drain was extended wound care rounds. Next up, I need to prepare training notes for new staff. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Completed patient discharge summaries",
+          "Updated medication charts before rounds"
+        ],
+        "drains": [
+          "Extended wound care rounds"
+        ],
+        "future_focus": [
+          "Prepare training notes for new staff"
+        ],
+        "tasks": [
+          {
+            "task_text": "Complete patient discharge summaries",
+            "category": "creating"
+          },
+          {
+            "task_text": "Update medication charts",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Wound care rounds",
+            "category": "creating"
+          },
+          {
+            "task_text": "Brief new staff on protocol changes",
+            "category": "communicating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_16",
+      "role": "nurse lead",
+      "transcript": "Today as a nurse lead, the morning was a blur but the afternoon clicked. Big wins were completed patient discharge summaries and updated medication charts before rounds. I also spent time on complete patient discharge summaries, update medication charts, wound care rounds. The main drain was extended wound care rounds. Next up, I need to prepare training notes for new staff. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Completed patient discharge summaries",
+          "Updated medication charts before rounds"
+        ],
+        "drains": [
+          "Extended wound care rounds"
+        ],
+        "future_focus": [
+          "Prepare training notes for new staff"
+        ],
+        "tasks": [
+          {
+            "task_text": "Complete patient discharge summaries",
+            "category": "creating"
+          },
+          {
+            "task_text": "Update medication charts",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Wound care rounds",
+            "category": "creating"
+          },
+          {
+            "task_text": "Brief new staff on protocol changes",
+            "category": "communicating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_17",
+      "role": "research lead",
+      "transcript": "Today as a research lead, it felt like a steady day overall. Big wins were synthesized interview insights and drafted the methodology section. I also spent time on synthesize interview insights, draft methodology section, irb compliance review meeting. The main drain was long irb compliance review. Next up, I need to plan the next participant wave. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Synthesized interview insights",
+          "Drafted the methodology section"
+        ],
+        "drains": [
+          "Long IRB compliance review"
+        ],
+        "future_focus": [
+          "Plan the next participant wave"
+        ],
+        "tasks": [
+          {
+            "task_text": "Synthesize interview insights",
+            "category": "creating"
+          },
+          {
+            "task_text": "Draft methodology section",
+            "category": "creating"
+          },
+          {
+            "task_text": "IRB compliance review meeting",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Plan next participant wave",
+            "category": "organizing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_18",
+      "role": "research lead",
+      "transcript": "Today as a research lead, the morning was a blur but the afternoon clicked. Big wins were synthesized interview insights and drafted the methodology section. I also spent time on synthesize interview insights, draft methodology section, irb compliance review meeting. The main drain was long irb compliance review. Next up, I need to plan the next participant wave. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Synthesized interview insights",
+          "Drafted the methodology section"
+        ],
+        "drains": [
+          "Long IRB compliance review"
+        ],
+        "future_focus": [
+          "Plan the next participant wave"
+        ],
+        "tasks": [
+          {
+            "task_text": "Synthesize interview insights",
+            "category": "creating"
+          },
+          {
+            "task_text": "Draft methodology section",
+            "category": "creating"
+          },
+          {
+            "task_text": "IRB compliance review meeting",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Plan next participant wave",
+            "category": "organizing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_19",
+      "role": "founder",
+      "transcript": "Today as a founder, it felt like a steady day overall. Big wins were closed a pilot customer and updated the investor deck. I also spent time on close pilot customer, update investor deck, book demo day travel. The main drain was travel logistics for the demo day. Next up, I need to finalize the pricing page. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Closed a pilot customer",
+          "Updated the investor deck"
+        ],
+        "drains": [
+          "Travel logistics for the demo day"
+        ],
+        "future_focus": [
+          "Finalize the pricing page"
+        ],
+        "tasks": [
+          {
+            "task_text": "Close pilot customer",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Update investor deck",
+            "category": "creating"
+          },
+          {
+            "task_text": "Book demo day travel",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Iterate pricing page copy",
+            "category": "creating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_20",
+      "role": "founder",
+      "transcript": "Today as a founder, the morning was a blur but the afternoon clicked. Big wins were closed a pilot customer and updated the investor deck. I also spent time on close pilot customer, update investor deck, book demo day travel. The main drain was travel logistics for the demo day. Next up, I need to finalize the pricing page. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Closed a pilot customer",
+          "Updated the investor deck"
+        ],
+        "drains": [
+          "Travel logistics for the demo day"
+        ],
+        "future_focus": [
+          "Finalize the pricing page"
+        ],
+        "tasks": [
+          {
+            "task_text": "Close pilot customer",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Update investor deck",
+            "category": "creating"
+          },
+          {
+            "task_text": "Book demo day travel",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Iterate pricing page copy",
+            "category": "creating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_21",
+      "role": "HR partner",
+      "transcript": "Today as a HR partner, it felt like a steady day overall. Big wins were finalized the onboarding checklist and completed two performance reviews. I also spent time on finalize onboarding checklist, complete performance reviews, process compliance paperwork. The main drain was backlog of compliance paperwork. Next up, I need to schedule manager training session. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Finalized the onboarding checklist",
+          "Completed two performance reviews"
+        ],
+        "drains": [
+          "Backlog of compliance paperwork"
+        ],
+        "future_focus": [
+          "Schedule manager training session"
+        ],
+        "tasks": [
+          {
+            "task_text": "Finalize onboarding checklist",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Complete performance reviews",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Process compliance paperwork",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Schedule manager training session",
+            "category": "organizing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_22",
+      "role": "HR partner",
+      "transcript": "Today as a HR partner, the morning was a blur but the afternoon clicked. Big wins were finalized the onboarding checklist and completed two performance reviews. I also spent time on finalize onboarding checklist, complete performance reviews, process compliance paperwork. The main drain was backlog of compliance paperwork. Next up, I need to schedule manager training session. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Finalized the onboarding checklist",
+          "Completed two performance reviews"
+        ],
+        "drains": [
+          "Backlog of compliance paperwork"
+        ],
+        "future_focus": [
+          "Schedule manager training session"
+        ],
+        "tasks": [
+          {
+            "task_text": "Finalize onboarding checklist",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Complete performance reviews",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Process compliance paperwork",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Schedule manager training session",
+            "category": "organizing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_23",
+      "role": "sales lead",
+      "transcript": "Today as a sales lead, it felt like a steady day overall. Big wins were ran two successful product demos and closed the renewal with redwood. I also spent time on run product demos, close redwood renewal, request pricing approvals. The main drain was chasing late-stage pricing approvals. Next up, I need to update the pipeline forecast. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Ran two successful product demos",
+          "Closed the renewal with Redwood"
+        ],
+        "drains": [
+          "Chasing late-stage pricing approvals"
+        ],
+        "future_focus": [
+          "Update the pipeline forecast"
+        ],
+        "tasks": [
+          {
+            "task_text": "Run product demos",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Close Redwood renewal",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Request pricing approvals",
+            "category": "communicating"
+          },
+          {
+            "task_text": "Update pipeline forecast",
+            "category": "organizing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_24",
+      "role": "sales lead",
+      "transcript": "Today as a sales lead, the morning was a blur but the afternoon clicked. Big wins were ran two successful product demos and closed the renewal with redwood. I also spent time on run product demos, close redwood renewal, request pricing approvals. The main drain was chasing late-stage pricing approvals. Next up, I need to update the pipeline forecast. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Ran two successful product demos",
+          "Closed the renewal with Redwood"
+        ],
+        "drains": [
+          "Chasing late-stage pricing approvals"
+        ],
+        "future_focus": [
+          "Update the pipeline forecast"
+        ],
+        "tasks": [
+          {
+            "task_text": "Run product demos",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Close Redwood renewal",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Request pricing approvals",
+            "category": "communicating"
+          },
+          {
+            "task_text": "Update pipeline forecast",
+            "category": "organizing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_25",
+      "role": "operations analyst",
+      "transcript": "Today as a operations analyst, it felt like a steady day overall. Big wins were mapped the supply chain bottlenecks and cleaned the vendor list. I also spent time on map supply chain bottlenecks, clean vendor list, audit procurement spreadsheet. The main drain was spreadsheet cleanup took too long. Next up, I need to automate vendor scoring. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Mapped the supply chain bottlenecks",
+          "Cleaned the vendor list"
+        ],
+        "drains": [
+          "Spreadsheet cleanup took too long"
+        ],
+        "future_focus": [
+          "Automate vendor scoring"
+        ],
+        "tasks": [
+          {
+            "task_text": "Map supply chain bottlenecks",
+            "category": "creating"
+          },
+          {
+            "task_text": "Clean vendor list",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Audit procurement spreadsheet",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Draft vendor scoring framework",
+            "category": "creating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_26",
+      "role": "operations analyst",
+      "transcript": "Today as a operations analyst, the morning was a blur but the afternoon clicked. Big wins were mapped the supply chain bottlenecks and cleaned the vendor list. I also spent time on map supply chain bottlenecks, clean vendor list, audit procurement spreadsheet. The main drain was spreadsheet cleanup took too long. Next up, I need to automate vendor scoring. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Mapped the supply chain bottlenecks",
+          "Cleaned the vendor list"
+        ],
+        "drains": [
+          "Spreadsheet cleanup took too long"
+        ],
+        "future_focus": [
+          "Automate vendor scoring"
+        ],
+        "tasks": [
+          {
+            "task_text": "Map supply chain bottlenecks",
+            "category": "creating"
+          },
+          {
+            "task_text": "Clean vendor list",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Audit procurement spreadsheet",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Draft vendor scoring framework",
+            "category": "creating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_27",
+      "role": "content strategist",
+      "transcript": "Today as a content strategist, it felt like a steady day overall. Big wins were outlined the february editorial calendar and published the faq update. I also spent time on outline february editorial calendar, publish faq update, handle last-minute edits. The main drain was multiple last-minute edits. Next up, I need to coordinate the webinar copy. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Outlined the February editorial calendar",
+          "Published the FAQ update"
+        ],
+        "drains": [
+          "Multiple last-minute edits"
+        ],
+        "future_focus": [
+          "Coordinate the webinar copy"
+        ],
+        "tasks": [
+          {
+            "task_text": "Outline February editorial calendar",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Publish FAQ update",
+            "category": "creating"
+          },
+          {
+            "task_text": "Handle last-minute edits",
+            "category": "communicating"
+          },
+          {
+            "task_text": "Coordinate webinar copy",
+            "category": "collaborating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_28",
+      "role": "content strategist",
+      "transcript": "Today as a content strategist, the morning was a blur but the afternoon clicked. Big wins were outlined the february editorial calendar and published the faq update. I also spent time on outline february editorial calendar, publish faq update, handle last-minute edits. The main drain was multiple last-minute edits. Next up, I need to coordinate the webinar copy. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Outlined the February editorial calendar",
+          "Published the FAQ update"
+        ],
+        "drains": [
+          "Multiple last-minute edits"
+        ],
+        "future_focus": [
+          "Coordinate the webinar copy"
+        ],
+        "tasks": [
+          {
+            "task_text": "Outline February editorial calendar",
+            "category": "organizing"
+          },
+          {
+            "task_text": "Publish FAQ update",
+            "category": "creating"
+          },
+          {
+            "task_text": "Handle last-minute edits",
+            "category": "communicating"
+          },
+          {
+            "task_text": "Coordinate webinar copy",
+            "category": "collaborating"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_29",
+      "role": "engineering manager",
+      "transcript": "Today as a engineering manager, it felt like a steady day overall. Big wins were unblocked the infra rollout and coached two ics through review feedback. I also spent time on unblock infra rollout, coach ics on review feedback, handle incident response. The main drain was incident response during lunch. Next up, I need to plan the next architecture review. Tomorrow I want to start fresh on that focus item.",
+      "ground_truth": {
+        "wins": [
+          "Unblocked the infra rollout",
+          "Coached two ICs through review feedback"
+        ],
+        "drains": [
+          "Incident response during lunch"
+        ],
+        "future_focus": [
+          "Plan the next architecture review"
+        ],
+        "tasks": [
+          {
+            "task_text": "Unblock infra rollout",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Coach ICs on review feedback",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Handle incident response",
+            "category": "creating"
+          },
+          {
+            "task_text": "Plan architecture review",
+            "category": "organizing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sample_30",
+      "role": "engineering manager",
+      "transcript": "Today as a engineering manager, the morning was a blur but the afternoon clicked. Big wins were unblocked the infra rollout and coached two ics through review feedback. I also spent time on unblock infra rollout, coach ics on review feedback, handle incident response. The main drain was incident response during lunch. Next up, I need to plan the next architecture review. I need to make sure I follow through first thing tomorrow.",
+      "ground_truth": {
+        "wins": [
+          "Unblocked the infra rollout",
+          "Coached two ICs through review feedback"
+        ],
+        "drains": [
+          "Incident response during lunch"
+        ],
+        "future_focus": [
+          "Plan the next architecture review"
+        ],
+        "tasks": [
+          {
+            "task_text": "Unblock infra rollout",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Coach ICs on review feedback",
+            "category": "collaborating"
+          },
+          {
+            "task_text": "Handle incident response",
+            "category": "creating"
+          },
+          {
+            "task_text": "Plan architecture review",
+            "category": "organizing"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -18,3 +18,8 @@
 - Built `/login` page with email/password auth and Google OAuth button styled to branding.
 - Set up Google Identity (OAuth consent + client) for Supabase Google sign-in.
 - Added Opik trace log notes in `opik_log.md` and linked from README.
+
+## Feb 2
+- Built validation UI for summary + completed actions with inline edits and accept toggles.
+- Added validation save endpoint and wired DB feedback logging (summary edits + task acceptance).
+- Polished completed actions UI (category pills, helper legend) and added validation success toast.
