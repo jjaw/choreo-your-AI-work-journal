@@ -98,8 +98,9 @@ export async function POST(request: Request) {
 
     const prompt = [
       "You are generating concise long-term insights for a work journal.",
-      "Use ONLY the provided data. Do not invent details.",
-      "Return JSON: { \"insights\": [string, ...] } with 2-3 bullets, each <= 18 words.",
+      "Use ONLY the provided data. Do not invent details or give generic advice.",
+      "Return JSON: { \"insights\": [string, ...] } with 2-3 bullets, each <= 14 words.",
+      "Each bullet must reference a concrete pattern from the data (energy, tasks, wins, drains, focus).",
       "",
       `Reflection count: ${summaries.length}`,
       `Top wins: ${wins.join("; ") || "none"}`,

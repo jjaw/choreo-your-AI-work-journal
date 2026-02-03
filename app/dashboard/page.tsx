@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { supabase } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -36,6 +36,8 @@ export default function DashboardPage() {
   const [selectedSummaryId, setSelectedSummaryId] = useState<string | null>(null)
   const [longTermInsights, setLongTermInsights] = useState<string[]>([])
   const [insightStatus, setInsightStatus] = useState<"idle" | "loading" | "ready" | "error">("idle")
+  const lastInsightSummaryAtRef = useRef<string | null>(null)
+  const insightRequestRef = useRef(false)
 
   const selectedSummary = useMemo(
     () => summaries.find((item) => item.id === selectedSummaryId) ?? summaries[0] ?? null,
@@ -98,16 +100,48 @@ export default function DashboardPage() {
       totalTasks: categoryTotals.total,
       topCategory,
       topEnergy,
+      categoryTotals,
     }
   }, [summaries, tasksBySummary])
+
+  const categoryMax = Math.max(
+    longTermStats.categoryTotals.creating,
+    longTermStats.categoryTotals.collaborating,
+    longTermStats.categoryTotals.communicating,
+    longTermStats.categoryTotals.organizing,
+    1
+  )
+
+  const energySeries = useMemo(() => {
+    const mapValue = (level: string | null) => {
+      if (level === "high") return 3
+      if (level === "medium") return 2
+      if (level === "low") return 1
+      return 0
+    }
+    return summaries
+      .slice(0, 7)
+      .map((item) => mapValue(item.energy_level ?? "unknown"))
+      .reverse()
+  }, [summaries])
+
+  const avgEnergy = useMemo(() => {
+    if (!energySeries.length) return { label: "Unknown", message: "Add more reflections to see your energy trend." }
+    const avg = energySeries.reduce((sum, value) => sum + value, 0) / energySeries.length
+    if (avg >= 2.4) return { label: "High", message: "Strong energy lately. Keep up the momentum." }
+    if (avg >= 1.6) return { label: "Medium", message: "Steady energy. Protect your focus blocks." }
+    return { label: "Low", message: "Low energy trend. Consider lighter loads or recovery time." }
+  }, [energySeries])
 
   useEffect(() => {
     const runInsights = async () => {
       if (!llmInsightsReady) return
-      if (insightStatus === "loading") return
       const latest = summaries[0]
       if (!latest) return
+      if (insightRequestRef.current) return
+      if (lastInsightSummaryAtRef.current === latest.created_at && insightStatus === "ready") return
       setInsightStatus("loading")
+      insightRequestRef.current = true
       try {
         const counts = {
           creating: 0,
@@ -146,8 +180,11 @@ export default function DashboardPage() {
         const data = await response.json()
         setLongTermInsights(Array.isArray(data.insights) ? data.insights : [])
         setInsightStatus("ready")
+        lastInsightSummaryAtRef.current = latest.created_at
       } catch {
         setInsightStatus("error")
+      } finally {
+        insightRequestRef.current = false
       }
     }
     runInsights()
@@ -327,6 +364,93 @@ export default function DashboardPage() {
                         ))}
                       </ul>
                     )}
+                  </div>
+                  <div className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs uppercase text-slate-500">Category Trend (Last 7)</div>
+                      <span className="relative group">
+                        <span
+                          className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 text-[11px] text-slate-500"
+                          aria-label="Category legend"
+                        >
+                          i
+                        </span>
+                        <span className="pointer-events-none absolute right-0 top-8 z-10 w-56 rounded-md border border-slate-200 bg-white px-3 py-2 text-[11px] text-slate-600 opacity-0 shadow-md transition-opacity group-hover:opacity-100">
+                          <div className="flex items-center gap-2">
+                            <span className="h-2.5 w-2.5 rounded-full border border-slate-300 bg-blue-400" />
+                            <span>creating = deliverables</span>
+                          </div>
+                          <div className="mt-1 flex items-center gap-2">
+                            <span className="h-2.5 w-2.5 rounded-full border border-slate-300 bg-amber-400" />
+                            <span>collaborating = meetings</span>
+                          </div>
+                          <div className="mt-1 flex items-center gap-2">
+                            <span className="h-2.5 w-2.5 rounded-full border border-slate-300 bg-slate-400" />
+                            <span>communicating = messages</span>
+                          </div>
+                          <div className="mt-1 flex items-center gap-2">
+                            <span className="h-2.5 w-2.5 rounded-full border border-slate-300 bg-emerald-400" />
+                            <span>organizing = admin</span>
+                          </div>
+                        </span>
+                      </span>
+                    </div>
+                    <div className="mt-3 space-y-2">
+                      {(
+                        [
+                          ["creating", longTermStats.categoryTotals.creating, "bg-blue-300/60"],
+                          ["collaborating", longTermStats.categoryTotals.collaborating, "bg-amber-300/60"],
+                          ["communicating", longTermStats.categoryTotals.communicating, "bg-slate-300"],
+                          ["organizing", longTermStats.categoryTotals.organizing, "bg-emerald-300/60"],
+                        ] as const
+                      ).map(([label, count, color]) => (
+                        <div key={label} className="flex items-center gap-3">
+                          <div className="w-28 text-xs text-slate-600 capitalize">{label}</div>
+                          <div className="flex-1">
+                            <div className="h-2 rounded-full bg-slate-100">
+                              <div
+                                className={`h-2 rounded-full ${color}`}
+                                style={{ width: `${Math.round((count / categoryMax) * 100)}%` }}
+                              />
+                            </div>
+                          </div>
+                          <div className="w-6 text-xs text-slate-500 text-right">{count}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs uppercase text-slate-500">Energy Trend (Last 7)</div>
+                      <div className="text-[11px] text-slate-500">Avg energy: {avgEnergy.label}</div>
+                    </div>
+                    <div className="mt-3 grid gap-3 lg:grid-cols-[auto_1fr_200px]">
+                      <div className="flex flex-col justify-between text-[10px] text-slate-400">
+                        <span>High</span>
+                        <span>Med</span>
+                        <span>Low</span>
+                      </div>
+                      <div className="flex items-end gap-2">
+                        {energySeries.map((value, index) => (
+                          <div key={`energy-${index}`} className="flex flex-col items-center gap-1">
+                            <div
+                              className={`w-3 rounded-md ${
+                                value === 3 ? "bg-success-400" : value === 2 ? "bg-warning-300" : "bg-slate-300"
+                              }`}
+                              style={{ height: `${value * 12 + 6}px` }}
+                            />
+                            <span className="text-[10px] text-slate-400">{index + 1}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex items-center">
+                        <div className="rounded-md border border-dashed border-slate-200 bg-slate-50 px-3 py-2 text-[11px] text-slate-500">
+                          <div className="text-[10px] uppercase text-slate-400">Coming soon</div>
+                          Energy insights will highlight drivers once more data is available.
+                        </div>
+                      </div>
+                    </div>
+                    <p className="mt-2 text-[11px] text-slate-500">{avgEnergy.message}</p>
                   </div>
                 </div>
               )}
