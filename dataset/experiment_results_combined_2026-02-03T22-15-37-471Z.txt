@@ -1,0 +1,10 @@
+Summary Experiment Results
+--------------------------
+v1_simple                     93.3%
+v2_structured                 94.4%
+
+Task Experiment Results (F1)
+----------------------------
+v1_simple                     70.5%
+v2_structured                 52.0%
+v3_examples                   78.1%

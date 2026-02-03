@@ -43,6 +43,24 @@ const taskPrompts = {
       "",
       `Transcript: ${transcript}`,
     ].join(" "),
+  v3_examples: (transcript) =>
+    [
+      "Extract completed actions from this reflection.",
+      "Return ONLY valid JSON with shape:",
+      '{ "tasks": [ { "task_text": string, "category": "creating|collaborating|communicating|organizing" } ] }',
+      "Rules:",
+      "- Include actions that were clearly done today.",
+      "- If a task was started but not finished, skip it.",
+      "- Be specific and concise.",
+      "",
+      "Examples:",
+      'Input: "I fixed the login bug and ran a demo with sales. I also replied to a few emails."',
+      'Output: {"tasks":[{"task_text":"Fix login bug","category":"creating"},{"task_text":"Run demo with sales","category":"collaborating"},{"task_text":"Reply to emails","category":"communicating"}]}',
+      'Input: "I updated the sprint plan, had standup, and drafted the FAQ."',
+      'Output: {"tasks":[{"task_text":"Update sprint plan","category":"organizing"},{"task_text":"Daily standup meeting","category":"collaborating"},{"task_text":"Draft FAQ","category":"creating"}]}',
+      "",
+      `Transcript: ${transcript}`,
+    ].join(" "),
 }
 
 module.exports = { summaryPrompts, taskPrompts }

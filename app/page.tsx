@@ -251,14 +251,24 @@ export default function Home() {
             {isAuthenticated ? `Signed in as ${userEmail}` : "Guest mode: 1 recording, 45 seconds"}
           </div>
           {isAuthenticated ? (
-            <Button
-              size="sm"
-              variant="outline"
-              className="border-slate-300 text-slate-700 hover:bg-slate-50"
-              onClick={() => supabase.auth.signOut()}
-            >
-              Sign out
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-slate-300 text-slate-700 hover:bg-slate-50"
+                asChild
+              >
+                <Link href="/dashboard">Dashboard</Link>
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-slate-300 text-slate-700 hover:bg-slate-50"
+                onClick={() => supabase.auth.signOut()}
+              >
+                Sign out
+              </Button>
+            </div>
           ) : (
             <Link href="/login">
               <Button size="sm" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-50">

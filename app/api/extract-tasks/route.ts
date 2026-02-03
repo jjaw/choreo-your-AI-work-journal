@@ -69,11 +69,18 @@ export async function POST(request: Request) {
     }
 
     const prompt = [
-      "Extract completed tasks from the transcript.",
+      "Extract completed actions from this reflection.",
       "Return strict JSON only with this shape:",
       '{ "tasks": [ { "task_text": string, "category": "creating|collaborating|communicating|organizing", "confidence": "low|medium|high" } ] }',
-      "Only include completed tasks, not future plans or ideas.",
-      "Use the four categories exactly.",
+      "Rules:",
+      "- Include actions that were clearly done today.",
+      "- If a task was started but not finished, skip it.",
+      "- Be specific and concise.",
+      "Examples:",
+      'Input: "I fixed the login bug and ran a demo with sales. I also replied to a few emails."',
+      'Output: {"tasks":[{"task_text":"Fix login bug","category":"creating","confidence":"high"},{"task_text":"Run demo with sales","category":"collaborating","confidence":"high"},{"task_text":"Reply to emails","category":"communicating","confidence":"medium"}]}',
+      'Input: "I updated the sprint plan, had standup, and drafted the FAQ."',
+      'Output: {"tasks":[{"task_text":"Update sprint plan","category":"organizing","confidence":"high"},{"task_text":"Daily standup meeting","category":"collaborating","confidence":"high"},{"task_text":"Draft FAQ","category":"creating","confidence":"high"}]}',
       `Transcript:\n${transcript}`,
     ].join(" ")
 

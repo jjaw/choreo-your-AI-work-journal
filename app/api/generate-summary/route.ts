@@ -62,6 +62,10 @@ export async function POST(request: Request) {
         "Return strict JSON only with these keys:",
         "wins (array of strings), drains (array of strings), future_focus (array of strings),",
         "emotional_tone (string), energy_level (string), emotion_confidence (low|medium|high).",
+        "Rules:",
+        "- Wins and drains must be concrete events or outcomes.",
+        "- Future focus must be next-step intentions.",
+        "wins: 2-4 items, drains: 1-3 items, future_focus: 1-3 items.",
       ].join(" "),
       `Transcript:\n${transcript}`,
     ]
