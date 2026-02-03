@@ -207,7 +207,8 @@ const run = async () => {
     console.log(`  ${version}: ${(avg * 100).toFixed(1)}%`)
   })
 
-  const summaryPath = path.join(__dirname, "..", "dataset", "experiment_results.json")
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-")
+  const summaryPath = path.join(__dirname, "..", "dataset", `experiment_results_${timestamp}.json`)
   const summaryPayload = {
     created_at: new Date().toISOString(),
     dataset_version: dataset.version,

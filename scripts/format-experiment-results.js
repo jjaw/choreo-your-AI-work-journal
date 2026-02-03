@@ -2,7 +2,21 @@ const fs = require("fs")
 const path = require("path")
 require("dotenv").config({ path: path.join(__dirname, "..", ".env.local") })
 
-const inputPath = path.join(__dirname, "..", "dataset", "experiment_results.json")
+const datasetDir = path.join(__dirname, "..", "dataset")
+const latestResults = () => {
+  const files = fs
+    .readdirSync(datasetDir)
+    .filter((file) => file.startsWith("experiment_results_") && file.endsWith(".json"))
+    .sort()
+  return files.length ? files[files.length - 1] : null
+}
+
+const inputPath = process.argv[2]
+  ? path.join(datasetDir, process.argv[2])
+  : (() => {
+      const latest = latestResults()
+      return latest ? path.join(datasetDir, latest) : path.join(datasetDir, "experiment_results.json")
+    })()
 
 if (!fs.existsSync(inputPath)) {
   console.error("Missing dataset/experiment_results.json. Run experiments first.")
@@ -56,8 +70,9 @@ const markdownOutput = [
 
 const textOutput = summaryLines.join("\n")
 
-const markdownPath = path.join(__dirname, "..", "dataset", "experiment_results.md")
-const textPath = path.join(__dirname, "..", "dataset", "experiment_results.txt")
+const baseName = path.basename(inputPath, ".json")
+const markdownPath = path.join(__dirname, "..", "dataset", `${baseName}.md`)
+const textPath = path.join(__dirname, "..", "dataset", `${baseName}.txt`)
 
 fs.writeFileSync(markdownPath, markdownOutput.join("\n"))
 fs.writeFileSync(textPath, textOutput)
