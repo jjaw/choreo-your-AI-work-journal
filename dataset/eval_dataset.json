@@ -1,11 +1,11 @@
 {
   "version": "v1",
-  "created_at": "2026-02-02T21:51:01.897Z",
+  "created_at": "2026-02-03T19:41:06.770Z",
   "samples": [
     {
       "id": "sample_01",
       "role": "product designer",
-      "transcript": "Today as a product designer, it felt like a steady day overall. Big wins were finalized the onboarding flow and polished the empty state illustrations. I also spent time on finalize onboarding flow, polish empty state illustrations, design review with mobile team. The main drain was context switching between design reviews. Next up, I need to prepare the handoff for engineering. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a product designer, it felt like a steady day overall. Big wins were finalized the onboarding flow and polished the empty state illustrations, which was great. I also spent time on finalize onboarding flow, polish empty state illustrations, design review with mobile team. i had to pause and circle back a couple times. One more thing I handled was send handoff notes to engineering. The main drain was context switching between design reviews. i wish i had a longer uninterrupted block. Next up, I need to prepare the handoff for engineering. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Finalized the onboarding flow",
@@ -40,7 +40,7 @@
     {
       "id": "sample_02",
       "role": "product designer",
-      "transcript": "Today as a product designer, the morning was a blur but the afternoon clicked. Big wins were finalized the onboarding flow and polished the empty state illustrations. I also spent time on finalize onboarding flow, polish empty state illustrations, design review with mobile team. The main drain was context switching between design reviews. Next up, I need to prepare the handoff for engineering. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a product designer, the morning was a blur but the afternoon clicked. Big wins were finalized the onboarding flow and polished the empty state illustrations, which was great. I also spent time on finalize onboarding flow, polish empty state illustrations, design review with mobile team. some things took longer than expected. One more thing I handled was send handoff notes to engineering. The main drain was context switching between design reviews. overall it felt solid, just busy. Next up, I need to prepare the handoff for engineering. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Finalized the onboarding flow",
@@ -75,7 +75,7 @@
     {
       "id": "sample_03",
       "role": "frontend engineer",
-      "transcript": "Today as a frontend engineer, it felt like a steady day overall. Big wins were shipped the landing page update and fixed the auth redirect bug. I also spent time on ship landing page update, fix auth redirect bug, daily standup meeting. The main drain was back-to-back standups. Next up, I need to refactor the profile settings module. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a frontend engineer, it felt like a steady day overall. Big wins were shipped the landing page update and fixed the auth redirect bug, which was great. I also spent time on ship landing page update, fix auth redirect bug, daily standup meeting. i had to pause and circle back a couple times. One more thing I handled was review pr for analytics events. The main drain was back-to-back standups. i wish i had a longer uninterrupted block. Next up, I need to refactor the profile settings module. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Shipped the landing page update",
@@ -110,7 +110,7 @@
     {
       "id": "sample_04",
       "role": "frontend engineer",
-      "transcript": "Today as a frontend engineer, the morning was a blur but the afternoon clicked. Big wins were shipped the landing page update and fixed the auth redirect bug. I also spent time on ship landing page update, fix auth redirect bug, daily standup meeting. The main drain was back-to-back standups. Next up, I need to refactor the profile settings module. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a frontend engineer, the morning was a blur but the afternoon clicked. Big wins were shipped the landing page update and fixed the auth redirect bug, which was great. I also spent time on ship landing page update, fix auth redirect bug, daily standup meeting. some things took longer than expected. One more thing I handled was review pr for analytics events. The main drain was back-to-back standups. overall it felt solid, just busy. Next up, I need to refactor the profile settings module. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Shipped the landing page update",
@@ -145,7 +145,7 @@
     {
       "id": "sample_05",
       "role": "marketing manager",
-      "transcript": "Today as a marketing manager, it felt like a steady day overall. Big wins were drafted the q2 campaign brief and locked the influencer shortlist. I also spent time on draft q2 campaign brief, finalize influencer shortlist, vendor negotiation call. The main drain was a long vendor negotiation call. Next up, I need to get legal approval for ad copy. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a marketing manager, it felt like a steady day overall. Big wins were drafted the q2 campaign brief and locked the influencer shortlist, which was great. I also spent time on draft q2 campaign brief, finalize influencer shortlist, vendor negotiation call. i had to pause and circle back a couple times. One more thing I handled was email legal about ad copy review. The main drain was a long vendor negotiation call. i wish i had a longer uninterrupted block. Next up, I need to get legal approval for ad copy. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Drafted the Q2 campaign brief",
@@ -180,7 +180,7 @@
     {
       "id": "sample_06",
       "role": "marketing manager",
-      "transcript": "Today as a marketing manager, the morning was a blur but the afternoon clicked. Big wins were drafted the q2 campaign brief and locked the influencer shortlist. I also spent time on draft q2 campaign brief, finalize influencer shortlist, vendor negotiation call. The main drain was a long vendor negotiation call. Next up, I need to get legal approval for ad copy. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a marketing manager, the morning was a blur but the afternoon clicked. Big wins were drafted the q2 campaign brief and locked the influencer shortlist, which was great. I also spent time on draft q2 campaign brief, finalize influencer shortlist, vendor negotiation call. some things took longer than expected. One more thing I handled was email legal about ad copy review. The main drain was a long vendor negotiation call. overall it felt solid, just busy. Next up, I need to get legal approval for ad copy. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Drafted the Q2 campaign brief",
@@ -215,7 +215,7 @@
     {
       "id": "sample_07",
       "role": "operations lead",
-      "transcript": "Today as a operations lead, it felt like a steady day overall. Big wins were updated the weekly staffing plan and cleared the backlog of approvals. I also spent time on update weekly staffing plan, approve pending time off requests, follow up on missing timesheets. The main drain was chasing missing timesheets. Next up, I need to automate the approval workflow. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a operations lead, it felt like a steady day overall. Big wins were updated the weekly staffing plan and cleared the backlog of approvals, which was great. I also spent time on update weekly staffing plan, approve pending time off requests, follow up on missing timesheets. i had to pause and circle back a couple times. One more thing I handled was sync with hr on scheduling gaps. The main drain was chasing missing timesheets. i wish i had a longer uninterrupted block. Next up, I need to automate the approval workflow. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Updated the weekly staffing plan",
@@ -250,7 +250,7 @@
     {
       "id": "sample_08",
       "role": "operations lead",
-      "transcript": "Today as a operations lead, the morning was a blur but the afternoon clicked. Big wins were updated the weekly staffing plan and cleared the backlog of approvals. I also spent time on update weekly staffing plan, approve pending time off requests, follow up on missing timesheets. The main drain was chasing missing timesheets. Next up, I need to automate the approval workflow. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a operations lead, the morning was a blur but the afternoon clicked. Big wins were updated the weekly staffing plan and cleared the backlog of approvals, which was great. I also spent time on update weekly staffing plan, approve pending time off requests, follow up on missing timesheets. some things took longer than expected. One more thing I handled was sync with hr on scheduling gaps. The main drain was chasing missing timesheets. overall it felt solid, just busy. Next up, I need to automate the approval workflow. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Updated the weekly staffing plan",
@@ -285,7 +285,7 @@
     {
       "id": "sample_09",
       "role": "customer success",
-      "transcript": "Today as a customer success, it felt like a steady day overall. Big wins were onboarded the new enterprise account and resolved two critical tickets. I also spent time on onboard new enterprise account, resolve critical support tickets, escalation call with support. The main drain was late-night escalation with support. Next up, I need to draft the quarterly health report. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a customer success, it felt like a steady day overall. Big wins were onboarded the new enterprise account and resolved two critical tickets, which was great. I also spent time on onboard new enterprise account, resolve critical support tickets, escalation call with support. i had to pause and circle back a couple times. One more thing I handled was outline quarterly health report. The main drain was late-night escalation with support. i wish i had a longer uninterrupted block. Next up, I need to draft the quarterly health report. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Onboarded the new enterprise account",
@@ -320,7 +320,7 @@
     {
       "id": "sample_10",
       "role": "customer success",
-      "transcript": "Today as a customer success, the morning was a blur but the afternoon clicked. Big wins were onboarded the new enterprise account and resolved two critical tickets. I also spent time on onboard new enterprise account, resolve critical support tickets, escalation call with support. The main drain was late-night escalation with support. Next up, I need to draft the quarterly health report. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a customer success, the morning was a blur but the afternoon clicked. Big wins were onboarded the new enterprise account and resolved two critical tickets, which was great. I also spent time on onboard new enterprise account, resolve critical support tickets, escalation call with support. some things took longer than expected. One more thing I handled was outline quarterly health report. The main drain was late-night escalation with support. overall it felt solid, just busy. Next up, I need to draft the quarterly health report. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Onboarded the new enterprise account",
@@ -355,7 +355,7 @@
     {
       "id": "sample_11",
       "role": "data analyst",
-      "transcript": "Today as a data analyst, it felt like a steady day overall. Big wins were built the revenue cohort dashboard and validated the churn model inputs. I also spent time on build revenue cohort dashboard, validate churn model inputs, document data inconsistencies. The main drain was rework due to inconsistent source data. Next up, I need to share insights with finance. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a data analyst, it felt like a steady day overall. Big wins were built the revenue cohort dashboard and validated the churn model inputs, which was great. I also spent time on build revenue cohort dashboard, validate churn model inputs, document data inconsistencies. i had to pause and circle back a couple times. One more thing I handled was send insights summary to finance. The main drain was rework due to inconsistent source data. i wish i had a longer uninterrupted block. Next up, I need to share insights with finance. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Built the revenue cohort dashboard",
@@ -390,7 +390,7 @@
     {
       "id": "sample_12",
       "role": "data analyst",
-      "transcript": "Today as a data analyst, the morning was a blur but the afternoon clicked. Big wins were built the revenue cohort dashboard and validated the churn model inputs. I also spent time on build revenue cohort dashboard, validate churn model inputs, document data inconsistencies. The main drain was rework due to inconsistent source data. Next up, I need to share insights with finance. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a data analyst, the morning was a blur but the afternoon clicked. Big wins were built the revenue cohort dashboard and validated the churn model inputs, which was great. I also spent time on build revenue cohort dashboard, validate churn model inputs, document data inconsistencies. some things took longer than expected. One more thing I handled was send insights summary to finance. The main drain was rework due to inconsistent source data. overall it felt solid, just busy. Next up, I need to share insights with finance. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Built the revenue cohort dashboard",
@@ -425,7 +425,7 @@
     {
       "id": "sample_13",
       "role": "project manager",
-      "transcript": "Today as a project manager, it felt like a steady day overall. Big wins were aligned the roadmap with stakeholders and closed sprint scope. I also spent time on roadmap alignment meeting, close sprint scope, respond to status check emails. The main drain was too many ad-hoc status checks. Next up, I need to prepare sprint kickoff agenda. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a project manager, it felt like a steady day overall. Big wins were aligned the roadmap with stakeholders and closed sprint scope, which was great. I also spent time on roadmap alignment meeting, close sprint scope, respond to status check emails. i had to pause and circle back a couple times. One more thing I handled was draft sprint kickoff agenda. The main drain was too many ad-hoc status checks. i wish i had a longer uninterrupted block. Next up, I need to prepare sprint kickoff agenda. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Aligned the roadmap with stakeholders",
@@ -460,7 +460,7 @@
     {
       "id": "sample_14",
       "role": "project manager",
-      "transcript": "Today as a project manager, the morning was a blur but the afternoon clicked. Big wins were aligned the roadmap with stakeholders and closed sprint scope. I also spent time on roadmap alignment meeting, close sprint scope, respond to status check emails. The main drain was too many ad-hoc status checks. Next up, I need to prepare sprint kickoff agenda. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a project manager, the morning was a blur but the afternoon clicked. Big wins were aligned the roadmap with stakeholders and closed sprint scope, which was great. I also spent time on roadmap alignment meeting, close sprint scope, respond to status check emails. some things took longer than expected. One more thing I handled was draft sprint kickoff agenda. The main drain was too many ad-hoc status checks. overall it felt solid, just busy. Next up, I need to prepare sprint kickoff agenda. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Aligned the roadmap with stakeholders",
@@ -495,7 +495,7 @@
     {
       "id": "sample_15",
       "role": "nurse lead",
-      "transcript": "Today as a nurse lead, it felt like a steady day overall. Big wins were completed patient discharge summaries and updated medication charts before rounds. I also spent time on complete patient discharge summaries, update medication charts, wound care rounds. The main drain was extended wound care rounds. Next up, I need to prepare training notes for new staff. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a nurse lead, it felt like a steady day overall. Big wins were completed patient discharge summaries and updated medication charts before rounds, which was great. I also spent time on complete patient discharge summaries, update medication charts, wound care rounds. i had to pause and circle back a couple times. One more thing I handled was brief new staff on protocol changes. The main drain was extended wound care rounds. i wish i had a longer uninterrupted block. Next up, I need to prepare training notes for new staff. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Completed patient discharge summaries",
@@ -530,7 +530,7 @@
     {
       "id": "sample_16",
       "role": "nurse lead",
-      "transcript": "Today as a nurse lead, the morning was a blur but the afternoon clicked. Big wins were completed patient discharge summaries and updated medication charts before rounds. I also spent time on complete patient discharge summaries, update medication charts, wound care rounds. The main drain was extended wound care rounds. Next up, I need to prepare training notes for new staff. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a nurse lead, the morning was a blur but the afternoon clicked. Big wins were completed patient discharge summaries and updated medication charts before rounds, which was great. I also spent time on complete patient discharge summaries, update medication charts, wound care rounds. some things took longer than expected. One more thing I handled was brief new staff on protocol changes. The main drain was extended wound care rounds. overall it felt solid, just busy. Next up, I need to prepare training notes for new staff. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Completed patient discharge summaries",
@@ -565,7 +565,7 @@
     {
       "id": "sample_17",
       "role": "research lead",
-      "transcript": "Today as a research lead, it felt like a steady day overall. Big wins were synthesized interview insights and drafted the methodology section. I also spent time on synthesize interview insights, draft methodology section, irb compliance review meeting. The main drain was long irb compliance review. Next up, I need to plan the next participant wave. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a research lead, it felt like a steady day overall. Big wins were synthesized interview insights and drafted the methodology section, which was great. I also spent time on synthesize interview insights, draft methodology section, irb compliance review meeting. i had to pause and circle back a couple times. One more thing I handled was plan next participant wave. The main drain was long irb compliance review. i wish i had a longer uninterrupted block. Next up, I need to plan the next participant wave. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Synthesized interview insights",
@@ -600,7 +600,7 @@
     {
       "id": "sample_18",
       "role": "research lead",
-      "transcript": "Today as a research lead, the morning was a blur but the afternoon clicked. Big wins were synthesized interview insights and drafted the methodology section. I also spent time on synthesize interview insights, draft methodology section, irb compliance review meeting. The main drain was long irb compliance review. Next up, I need to plan the next participant wave. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a research lead, the morning was a blur but the afternoon clicked. Big wins were synthesized interview insights and drafted the methodology section, which was great. I also spent time on synthesize interview insights, draft methodology section, irb compliance review meeting. some things took longer than expected. One more thing I handled was plan next participant wave. The main drain was long irb compliance review. overall it felt solid, just busy. Next up, I need to plan the next participant wave. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Synthesized interview insights",
@@ -635,7 +635,7 @@
     {
       "id": "sample_19",
       "role": "founder",
-      "transcript": "Today as a founder, it felt like a steady day overall. Big wins were closed a pilot customer and updated the investor deck. I also spent time on close pilot customer, update investor deck, book demo day travel. The main drain was travel logistics for the demo day. Next up, I need to finalize the pricing page. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a founder, it felt like a steady day overall. Big wins were closed a pilot customer and updated the investor deck, which was great. I also spent time on close pilot customer, update investor deck, book demo day travel. i had to pause and circle back a couple times. One more thing I handled was iterate pricing page copy. The main drain was travel logistics for the demo day. i wish i had a longer uninterrupted block. Next up, I need to finalize the pricing page. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Closed a pilot customer",
@@ -670,7 +670,7 @@
     {
       "id": "sample_20",
       "role": "founder",
-      "transcript": "Today as a founder, the morning was a blur but the afternoon clicked. Big wins were closed a pilot customer and updated the investor deck. I also spent time on close pilot customer, update investor deck, book demo day travel. The main drain was travel logistics for the demo day. Next up, I need to finalize the pricing page. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a founder, the morning was a blur but the afternoon clicked. Big wins were closed a pilot customer and updated the investor deck, which was great. I also spent time on close pilot customer, update investor deck, book demo day travel. some things took longer than expected. One more thing I handled was iterate pricing page copy. The main drain was travel logistics for the demo day. overall it felt solid, just busy. Next up, I need to finalize the pricing page. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Closed a pilot customer",
@@ -705,7 +705,7 @@
     {
       "id": "sample_21",
       "role": "HR partner",
-      "transcript": "Today as a HR partner, it felt like a steady day overall. Big wins were finalized the onboarding checklist and completed two performance reviews. I also spent time on finalize onboarding checklist, complete performance reviews, process compliance paperwork. The main drain was backlog of compliance paperwork. Next up, I need to schedule manager training session. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a HR partner, it felt like a steady day overall. Big wins were finalized the onboarding checklist and completed two performance reviews, which was great. I also spent time on finalize onboarding checklist, complete performance reviews, process compliance paperwork. i had to pause and circle back a couple times. One more thing I handled was schedule manager training session. The main drain was backlog of compliance paperwork. i wish i had a longer uninterrupted block. Next up, I need to schedule manager training session. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Finalized the onboarding checklist",
@@ -740,7 +740,7 @@
     {
       "id": "sample_22",
       "role": "HR partner",
-      "transcript": "Today as a HR partner, the morning was a blur but the afternoon clicked. Big wins were finalized the onboarding checklist and completed two performance reviews. I also spent time on finalize onboarding checklist, complete performance reviews, process compliance paperwork. The main drain was backlog of compliance paperwork. Next up, I need to schedule manager training session. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a HR partner, the morning was a blur but the afternoon clicked. Big wins were finalized the onboarding checklist and completed two performance reviews, which was great. I also spent time on finalize onboarding checklist, complete performance reviews, process compliance paperwork. some things took longer than expected. One more thing I handled was schedule manager training session. The main drain was backlog of compliance paperwork. overall it felt solid, just busy. Next up, I need to schedule manager training session. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Finalized the onboarding checklist",
@@ -775,7 +775,7 @@
     {
       "id": "sample_23",
       "role": "sales lead",
-      "transcript": "Today as a sales lead, it felt like a steady day overall. Big wins were ran two successful product demos and closed the renewal with redwood. I also spent time on run product demos, close redwood renewal, request pricing approvals. The main drain was chasing late-stage pricing approvals. Next up, I need to update the pipeline forecast. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a sales lead, it felt like a steady day overall. Big wins were ran two successful product demos and closed the renewal with redwood, which was great. I also spent time on run product demos, close redwood renewal, request pricing approvals. i had to pause and circle back a couple times. One more thing I handled was update pipeline forecast. The main drain was chasing late-stage pricing approvals. i wish i had a longer uninterrupted block. Next up, I need to update the pipeline forecast. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Ran two successful product demos",
@@ -810,7 +810,7 @@
     {
       "id": "sample_24",
       "role": "sales lead",
-      "transcript": "Today as a sales lead, the morning was a blur but the afternoon clicked. Big wins were ran two successful product demos and closed the renewal with redwood. I also spent time on run product demos, close redwood renewal, request pricing approvals. The main drain was chasing late-stage pricing approvals. Next up, I need to update the pipeline forecast. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a sales lead, the morning was a blur but the afternoon clicked. Big wins were ran two successful product demos and closed the renewal with redwood, which was great. I also spent time on run product demos, close redwood renewal, request pricing approvals. some things took longer than expected. One more thing I handled was update pipeline forecast. The main drain was chasing late-stage pricing approvals. overall it felt solid, just busy. Next up, I need to update the pipeline forecast. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Ran two successful product demos",
@@ -845,7 +845,7 @@
     {
       "id": "sample_25",
       "role": "operations analyst",
-      "transcript": "Today as a operations analyst, it felt like a steady day overall. Big wins were mapped the supply chain bottlenecks and cleaned the vendor list. I also spent time on map supply chain bottlenecks, clean vendor list, audit procurement spreadsheet. The main drain was spreadsheet cleanup took too long. Next up, I need to automate vendor scoring. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a operations analyst, it felt like a steady day overall. Big wins were mapped the supply chain bottlenecks and cleaned the vendor list, which was great. I also spent time on map supply chain bottlenecks, clean vendor list, audit procurement spreadsheet. i had to pause and circle back a couple times. One more thing I handled was draft vendor scoring framework. The main drain was spreadsheet cleanup took too long. i wish i had a longer uninterrupted block. Next up, I need to automate vendor scoring. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Mapped the supply chain bottlenecks",
@@ -880,7 +880,7 @@
     {
       "id": "sample_26",
       "role": "operations analyst",
-      "transcript": "Today as a operations analyst, the morning was a blur but the afternoon clicked. Big wins were mapped the supply chain bottlenecks and cleaned the vendor list. I also spent time on map supply chain bottlenecks, clean vendor list, audit procurement spreadsheet. The main drain was spreadsheet cleanup took too long. Next up, I need to automate vendor scoring. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a operations analyst, the morning was a blur but the afternoon clicked. Big wins were mapped the supply chain bottlenecks and cleaned the vendor list, which was great. I also spent time on map supply chain bottlenecks, clean vendor list, audit procurement spreadsheet. some things took longer than expected. One more thing I handled was draft vendor scoring framework. The main drain was spreadsheet cleanup took too long. overall it felt solid, just busy. Next up, I need to automate vendor scoring. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Mapped the supply chain bottlenecks",
@@ -915,7 +915,7 @@
     {
       "id": "sample_27",
       "role": "content strategist",
-      "transcript": "Today as a content strategist, it felt like a steady day overall. Big wins were outlined the february editorial calendar and published the faq update. I also spent time on outline february editorial calendar, publish faq update, handle last-minute edits. The main drain was multiple last-minute edits. Next up, I need to coordinate the webinar copy. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a content strategist, it felt like a steady day overall. Big wins were outlined the february editorial calendar and published the faq update, which was great. I also spent time on outline february editorial calendar, publish faq update, handle last-minute edits. i had to pause and circle back a couple times. One more thing I handled was coordinate webinar copy. The main drain was multiple last-minute edits. i wish i had a longer uninterrupted block. Next up, I need to coordinate the webinar copy. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Outlined the February editorial calendar",
@@ -950,7 +950,7 @@
     {
       "id": "sample_28",
       "role": "content strategist",
-      "transcript": "Today as a content strategist, the morning was a blur but the afternoon clicked. Big wins were outlined the february editorial calendar and published the faq update. I also spent time on outline february editorial calendar, publish faq update, handle last-minute edits. The main drain was multiple last-minute edits. Next up, I need to coordinate the webinar copy. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a content strategist, the morning was a blur but the afternoon clicked. Big wins were outlined the february editorial calendar and published the faq update, which was great. I also spent time on outline february editorial calendar, publish faq update, handle last-minute edits. some things took longer than expected. One more thing I handled was coordinate webinar copy. The main drain was multiple last-minute edits. overall it felt solid, just busy. Next up, I need to coordinate the webinar copy. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Outlined the February editorial calendar",
@@ -985,7 +985,7 @@
     {
       "id": "sample_29",
       "role": "engineering manager",
-      "transcript": "Today as a engineering manager, it felt like a steady day overall. Big wins were unblocked the infra rollout and coached two ics through review feedback. I also spent time on unblock infra rollout, coach ics on review feedback, handle incident response. The main drain was incident response during lunch. Next up, I need to plan the next architecture review. Tomorrow I want to start fresh on that focus item.",
+      "transcript": "So, quick recap of my day. Today as a engineering manager, it felt like a steady day overall. Big wins were unblocked the infra rollout and coached two ics through review feedback, which was great. I also spent time on unblock infra rollout, coach ics on review feedback, handle incident response. i had to pause and circle back a couple times. One more thing I handled was plan architecture review. The main drain was incident response during lunch. i wish i had a longer uninterrupted block. Next up, I need to plan the next architecture review. Tomorrow I want to start fresh on that focus item.",
       "ground_truth": {
         "wins": [
           "Unblocked the infra rollout",
@@ -1020,7 +1020,7 @@
     {
       "id": "sample_30",
       "role": "engineering manager",
-      "transcript": "Today as a engineering manager, the morning was a blur but the afternoon clicked. Big wins were unblocked the infra rollout and coached two ics through review feedback. I also spent time on unblock infra rollout, coach ics on review feedback, handle incident response. The main drain was incident response during lunch. Next up, I need to plan the next architecture review. I need to make sure I follow through first thing tomorrow.",
+      "transcript": "Alright, here's how today went. Today as a engineering manager, the morning was a blur but the afternoon clicked. Big wins were unblocked the infra rollout and coached two ics through review feedback, which was great. I also spent time on unblock infra rollout, coach ics on review feedback, handle incident response. some things took longer than expected. One more thing I handled was plan architecture review. The main drain was incident response during lunch. overall it felt solid, just busy. Next up, I need to plan the next architecture review. I need to make sure I follow through first thing tomorrow.",
       "ground_truth": {
         "wins": [
           "Unblocked the infra rollout",

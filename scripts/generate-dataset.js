@@ -1,5 +1,6 @@
 const fs = require("fs")
 const path = require("path")
+require("dotenv").config({ path: path.join(__dirname, "..", ".env.local") })
 
 const baseScenarios = [
   {
@@ -225,6 +226,7 @@ const closers = [
 ]
 
 const makeTranscript = (scenario, variant) => {
+  const pick = (list, offset = 0) => list[(variant + offset) % list.length]
   const filler = fillers[variant % fillers.length]
   const opener = openers[variant % openers.length]
   const middle = middles[(variant + 2) % middles.length]
@@ -239,14 +241,40 @@ const makeTranscript = (scenario, variant) => {
     .join(", ")
   const extraTask = scenario.tasks[scenario.tasks.length - 1]?.task_text ?? ""
 
-  return [
+  const maybe = (text, odds = 0.7) => (variant % 10) / 10 < odds ? text : ""
+  const hedges = [
+    "kind of",
+    "sort of",
+    "basically",
+    "more or less",
+    "in a way",
+  ]
+  const hedge = pick(hedges, 1)
+  const unfinished = [
+    `I started to ${scenario.future_focus[0]?.toLowerCase()} but didn't finish it.`,
+    `I meant to ${scenario.future_focus[0]?.toLowerCase()}, didn't really get there.`,
+    `I only got halfway on ${scenario.future_focus[0]?.toLowerCase()}.`,
+  ]
+
+  const lines = [
     `${opener} Today as a ${scenario.role}, ${filler.toLowerCase()}`,
-    `Big wins were ${wins.toLowerCase()}, which was great.`,
-    `I also spent time on ${taskMentions.toLowerCase()}. ${middle.toLowerCase()}`,
+    maybe(`One win was ${wins.toLowerCase()}, which felt good.`),
+    `I spent time on ${taskMentions.toLowerCase()}, ${middle.toLowerCase()}`,
+    maybe(`There was ${hedge} a lot of context switching.`),
     `One more thing I handled was ${extraTask.toLowerCase()}.`,
-    `The main drain was ${drains.toLowerCase()}. ${humanTouch.toLowerCase()}`,
-    `Next up, I need to ${focus.toLowerCase()}. ${closer}`,
-  ].join(" ")
+    maybe(pick(unfinished, 2), 0.4),
+    `The part that dragged was ${drains.toLowerCase()}. ${humanTouch.toLowerCase()}`,
+    maybe(`I also had a quick check-in and some random pings.`),
+    `Looking ahead, I want to ${focus.toLowerCase()}. ${closer}`,
+  ].filter(Boolean)
+
+  // shuffle a couple middle lines for variety
+  if (variant % 2 === 0) {
+    const mid = lines.splice(2, 2)
+    lines.push(...mid)
+  }
+
+  return lines.join(" ")
 }
 
 const dataset = []
