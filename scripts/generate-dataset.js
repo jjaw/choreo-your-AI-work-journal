@@ -192,6 +192,30 @@ const fillers = [
   "It was productive but a bit draining.",
 ]
 
+const openers = [
+  "So, quick recap of my day.",
+  "Alright, here's how today went.",
+  "Okay, let me think this through.",
+  "Short version of today.",
+  "If I zoom out on the day.",
+]
+
+const middles = [
+  "I kept bouncing between tasks.",
+  "There were a few interruptions.",
+  "I had to pause and circle back a couple times.",
+  "Some things took longer than expected.",
+  "I tried to keep momentum where I could.",
+]
+
+const humanTouches = [
+  "Honestly, that took more energy than I expected.",
+  "It was satisfying but also a little exhausting.",
+  "I felt like I was in the weeds for a bit.",
+  "I wish I had a longer uninterrupted block.",
+  "Overall it felt solid, just busy.",
+]
+
 const closers = [
   "Tomorrow I want to start fresh on that focus item.",
   "I need to make sure I follow through first thing tomorrow.",
@@ -202,6 +226,9 @@ const closers = [
 
 const makeTranscript = (scenario, variant) => {
   const filler = fillers[variant % fillers.length]
+  const opener = openers[variant % openers.length]
+  const middle = middles[(variant + 2) % middles.length]
+  const humanTouch = humanTouches[(variant + 3) % humanTouches.length]
   const closer = closers[variant % closers.length]
   const wins = scenario.wins.join(" and ")
   const drains = scenario.drains.join(" and ")
@@ -210,12 +237,14 @@ const makeTranscript = (scenario, variant) => {
     .map((task) => task.task_text)
     .slice(0, 3)
     .join(", ")
+  const extraTask = scenario.tasks[scenario.tasks.length - 1]?.task_text ?? ""
 
   return [
-    `Today as a ${scenario.role}, ${filler.toLowerCase()}`,
-    `Big wins were ${wins.toLowerCase()}.`,
-    `I also spent time on ${taskMentions.toLowerCase()}.`,
-    `The main drain was ${drains.toLowerCase()}.`,
+    `${opener} Today as a ${scenario.role}, ${filler.toLowerCase()}`,
+    `Big wins were ${wins.toLowerCase()}, which was great.`,
+    `I also spent time on ${taskMentions.toLowerCase()}. ${middle.toLowerCase()}`,
+    `One more thing I handled was ${extraTask.toLowerCase()}.`,
+    `The main drain was ${drains.toLowerCase()}. ${humanTouch.toLowerCase()}`,
     `Next up, I need to ${focus.toLowerCase()}. ${closer}`,
   ].join(" ")
 }
