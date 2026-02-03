@@ -191,14 +191,39 @@ const run = async () => {
   }
 
   console.log("Summary scores:")
+  const summaryAverages = {}
   Object.entries(results.summary).forEach(([version, scores]) => {
-    console.log(`  ${version}: ${(aggregate(scores) * 100).toFixed(1)}%`)
+    const avg = aggregate(scores)
+    summaryAverages[version] = avg
+    console.log(`  ${version}: ${(avg * 100).toFixed(1)}%`)
   })
 
   console.log("Task scores (F1):")
+  const taskAverages = {}
   Object.entries(results.tasks).forEach(([version, scores]) => {
-    console.log(`  ${version}: ${(aggregate(scores) * 100).toFixed(1)}%`)
+    const avg = aggregate(scores)
+    taskAverages[version] = avg
+    console.log(`  ${version}: ${(avg * 100).toFixed(1)}%`)
   })
+
+  const summaryPath = path.join(__dirname, "..", "dataset", "experiment_results.json")
+  const summaryPayload = {
+    created_at: new Date().toISOString(),
+    dataset_version: dataset.version,
+    dataset_size: samples.length,
+    mode,
+    model: modelName,
+    summary: {
+      averages: summaryAverages,
+      raw_scores: results.summary,
+    },
+    tasks: {
+      averages: taskAverages,
+      raw_scores: results.tasks,
+    },
+  }
+  fs.writeFileSync(summaryPath, JSON.stringify(summaryPayload, null, 2))
+  console.log(`Saved results to ${summaryPath}`)
 
   if (opikClient) {
     await opikClient.flush()

@@ -23,3 +23,4 @@
 - Built validation UI for summary + completed actions with inline edits and accept toggles.
 - Added validation save endpoint and wired DB feedback logging (summary edits + task acceptance).
 - Polished completed actions UI (category pills, helper legend) and added validation success toast.
+- Generated 30-sample synthetic dataset and added experiment runner + results formatter scripts.
