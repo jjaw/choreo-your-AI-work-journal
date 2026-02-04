@@ -130,7 +130,7 @@ export default function DashboardPage() {
 
   const avgEnergy = useMemo(() => {
     if (!energySeries.length) return { label: "Unknown", message: "Add more reflections to see your energy trend." }
-    const avg = energySeries.reduce((sum, value) => sum + value, 0) / energySeries.length
+    const avg = energySeries.reduce((sum, value) => sum + value, 0 as number) / energySeries.length
     if (avg >= 2.4) return { label: "High", message: "Strong energy lately. Keep up the momentum." }
     if (avg >= 1.6) return { label: "Medium", message: "Steady energy. Protect your focus blocks." }
     return { label: "Low", message: "Low energy trend. Consider lighter loads or recovery time." }
