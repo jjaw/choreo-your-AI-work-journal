@@ -39,6 +39,7 @@ export default function DashboardPage() {
   const [insightStatus, setInsightStatus] = useState<"idle" | "loading" | "ready" | "error">("idle")
   const lastInsightSummaryAtRef = useRef<string | null>(null)
   const insightRequestRef = useRef(false)
+  const isInsightLoading = insightStatus === "loading"
 
   const selectedSummary = useMemo(
     () => summaries.find((item) => item.id === selectedSummaryId) ?? summaries[0] ?? null,
@@ -375,7 +376,7 @@ export default function DashboardPage() {
                           variant="outline"
                           className="border-slate-200 text-slate-600"
                           onClick={runInsights}
-                          disabled={insightStatus === "loading"}
+                          disabled={isInsightLoading}
                         >
                           Retry insights
                         </Button>
