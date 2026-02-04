@@ -34,6 +34,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedSummaryId, setSelectedSummaryId] = useState<string | null>(null)
+  const [totalReflections, setTotalReflections] = useState(0)
   const [longTermInsights, setLongTermInsights] = useState<string[]>([])
   const [insightStatus, setInsightStatus] = useState<"idle" | "loading" | "ready" | "error">("idle")
   const lastInsightSummaryAtRef = useRef<string | null>(null)
@@ -89,17 +90,19 @@ export default function DashboardPage() {
       .filter(([key]) => key !== "total")
       .sort((a, b) => (b[1] as number) - (a[1] as number))[0]?.[0] ?? "creating") as TaskRow["category"]
 
-    const energyCounts = summaries.reduce<Record<string, number>>((acc, item) => {
-      const level = item.energy_level ?? "unknown"
-      acc[level] = (acc[level] ?? 0) + 1
-      return acc
-    }, {})
-    const topEnergy = Object.entries(energyCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "unknown"
+    const drainCounts = summaries
+      .flatMap((item) => item.drains ?? [])
+      .reduce<Record<string, number>>((acc, drain) => {
+        const key = drain.toLowerCase()
+        acc[key] = (acc[key] ?? 0) + 1
+        return acc
+      }, {})
+    const topDrain = Object.entries(drainCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "—"
 
     return {
       totalTasks: categoryTotals.total,
       topCategory,
-      topEnergy,
+      topDrain,
       categoryTotals,
     }
   }, [summaries, tasksBySummary])
@@ -206,6 +209,11 @@ export default function DashboardPage() {
         return
       }
 
+      const { count: totalCount } = await supabase
+        .from("daily_summaries")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId)
+
       const { data: summariesData, error: summariesError } = await supabase
         .from("daily_summaries")
         .select(
@@ -276,6 +284,7 @@ export default function DashboardPage() {
       if (mounted) {
         setSummaries(summariesData)
         setTasksBySummary(tasksByVoiceNote)
+        setTotalReflections(totalCount ?? summariesData.length)
         setLoading(false)
         setSelectedSummaryId((prev) => prev ?? summariesData[0]?.id ?? null)
       }
@@ -334,17 +343,20 @@ export default function DashboardPage() {
                 <div className="space-y-3">
                   <div className="grid gap-3 sm:grid-cols-3">
                     <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
-                      <div className="text-xs uppercase text-slate-500">Reflections</div>
-                      <div className="text-lg font-semibold text-slate-900">{summaries.length}</div>
+                      <div className="text-xs uppercase text-slate-500">Total Reflections</div>
+                      <div className="text-lg font-semibold text-slate-900">{totalReflections}</div>
                     </div>
                     <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
                       <div className="text-xs uppercase text-slate-500">Top Category</div>
-                      <div className="text-sm text-slate-700">{longTermStats.topCategory}</div>
+                      <div className="text-sm text-slate-700 capitalize">{longTermStats.topCategory}</div>
                     </div>
                     <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
-                      <div className="text-xs uppercase text-slate-500">Most Common Energy</div>
-                      <div className="text-sm text-slate-700">{longTermStats.topEnergy}</div>
+                      <div className="text-xs uppercase text-slate-500">Top Drain Theme</div>
+                      <div className="text-sm text-slate-700 capitalize">{longTermStats.topDrain}</div>
                     </div>
+                  </div>
+                  <div className="text-[11px] text-slate-500">
+                    Trend charts below are calculated from your most recent 7 reflections (rolling window).
                   </div>
                   <div className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
                     <div className="text-xs uppercase text-slate-500">AI Insight</div>

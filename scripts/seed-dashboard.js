@@ -4,7 +4,7 @@ const { createClient } = require("@supabase/supabase-js")
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
-const userId = process.env.SEED_USER_ID
+const userId = process.argv[2] || process.env.SEED_USER_ID
 
 if (!supabaseUrl || !supabaseKey || !userId) {
   console.error("Missing NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SECRET_KEY, or SEED_USER_ID")
@@ -97,6 +97,57 @@ const reflections = [
       { task_text: "Validate churn model inputs", category: "creating" },
       { task_text: "Document data inconsistencies", category: "organizing" },
       { task_text: "Send insights summary to finance", category: "communicating" },
+    ],
+  },
+  {
+    recorded_at: "2026-02-06T18:20:00Z",
+    summary: {
+      wins: ["Resolved a critical support escalation", "Updated the runbook"],
+      drains: ["Customer call ran long"],
+      future_focus: ["Draft escalation playbook update"],
+      emotional_tone: "focused",
+      energy_level: "medium",
+      emotion_confidence: "medium",
+    },
+    tasks: [
+      { task_text: "Resolve critical support escalation", category: "collaborating" },
+      { task_text: "Update incident runbook", category: "organizing" },
+      { task_text: "Follow up with customer", category: "communicating" },
+      { task_text: "Draft escalation playbook update", category: "creating" },
+    ],
+  },
+  {
+    recorded_at: "2026-02-07T19:40:00Z",
+    summary: {
+      wins: ["Finished the Q2 roadmap deck", "Aligned priorities with leadership"],
+      drains: ["Too many late-day context switches"],
+      future_focus: ["Plan next sprint kickoff"],
+      emotional_tone: "accomplished",
+      energy_level: "medium",
+      emotion_confidence: "high",
+    },
+    tasks: [
+      { task_text: "Finish Q2 roadmap deck", category: "creating" },
+      { task_text: "Leadership alignment meeting", category: "collaborating" },
+      { task_text: "Reply to follow-up questions", category: "communicating" },
+      { task_text: "Plan next sprint kickoff", category: "organizing" },
+    ],
+  },
+  {
+    recorded_at: "2026-02-08T20:15:00Z",
+    summary: {
+      wins: ["Polished the launch checklist", "Queued the announcement email"],
+      drains: ["Waiting on final approvals"],
+      future_focus: ["Schedule launch retro"],
+      emotional_tone: "steady",
+      energy_level: "low",
+      emotion_confidence: "medium",
+    },
+    tasks: [
+      { task_text: "Polish launch checklist", category: "organizing" },
+      { task_text: "Queue announcement email", category: "communicating" },
+      { task_text: "Review launch assets", category: "creating" },
+      { task_text: "Schedule launch retro", category: "organizing" },
     ],
   },
 ]

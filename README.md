@@ -12,6 +12,19 @@
 
 ---
 
+## Demo Instructions
+
+### Demo Credentials
+- Email: demo@choreo.app
+- Password: demo123
+
+### Demo Steps
+1. Log in with the demo credentials.
+2. Open `/dashboard` to view seeded reflections + insights.
+3. Record a new reflection to see live AI output.
+
+---
+
 ## The Problem
 
 Knowledge workers end their days feeling busy but unclear about what they actually accomplished. They struggle to identify productivity patterns, don't know when they do their best work, and repeat inefficient habits because they lack data about their own work patterns.
