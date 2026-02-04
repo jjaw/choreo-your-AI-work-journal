@@ -7,7 +7,7 @@
 **Live Demo:** Coming soon  
 **Demo Video:** Coming soon
 
-[![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
 
 ---
@@ -44,7 +44,7 @@ Knowledge workers end their days feeling busy but unclear about what they actual
 2. **AI generates** a structured summary (Wins / Energy Drains / Future Focus)
 3. **AI extracts** completed tasks automatically
 4. **Insights** reveal your productivity patterns over time
-5. **Privacy-first:** Audio deleted immediately after transcription
+5. **Privacy-first:** Audio is not stored; only text outputs are saved
 
 **Why it works:**
 - Minimal friction (just talk for 3 minutes)
@@ -77,7 +77,7 @@ Note: We initially planned to upload audio to Supabase Storage before processing
 ## Tech Stack
 
 **Frontend:**
-- [Next.js 14](https://nextjs.org/) (TypeScript, App Router)
+- [Next.js 16](https://nextjs.org/) (TypeScript, App Router)
 - [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
 - Web Audio API (browser-native recording)
 
@@ -87,7 +87,7 @@ Note: We initially planned to upload audio to Supabase Storage before processing
 - [Opik TypeScript SDK](https://www.comet.com/site/products/opik/) (LLM observability)
 
 **Infrastructure:**
-- [Supabase](https://supabase.com/) (PostgreSQL, Auth, Storage)
+- [Supabase](https://supabase.com/) (PostgreSQL, Auth)
 - [Vercel](https://vercel.com/) (deployment)
 
 **Why This Stack:**
@@ -101,15 +101,15 @@ Note: We initially planned to upload audio to Supabase Storage before processing
 ## Key Features
 
 ### Core Features (MVP)
-- [ ] Voice Recording (3-min limit, countdown timer, waveform visualization)
-- [ ] AI Transcription (Gemini API, <5 seconds)
-- [ ] AI Summary Generation (Wins / Energy Drains / Future Focus)
-- [ ] AI Task Extraction (with categories & confidence scores)
-- [ ] Human Validation (edit summary items, accept/reject tasks)
-- [ ] Audio Deletion (privacy-first: deleted immediately after processing)
-- [ ] Daily Dashboard (today's reflection + stats)
-- [ ] Opik Integration (all LLM calls traced, human feedback logged)
-- [ ] Demo Account (5 pre-seeded days showing patterns)
+- [x] Voice Recording (3-min limit, countdown timer, waveform visualization)
+- [x] AI Transcription (Gemini API)
+- [x] AI Summary Generation (Wins / Energy Drains / Future Focus)
+- [x] AI Task Extraction (with categories & confidence scores)
+- [x] Human Validation (edit summary items, accept/reject tasks)
+- [x] Privacy-first audio handling (audio not persisted)
+- [x] Daily Dashboard (latest reflection + long-term trend cards)
+- [x] Opik Integration (all LLM calls traced, experiments logged)
+- [x] Demo Account (8 pre-seeded reflections)
 
 ### Nice-to-Have Features
 - [ ] Weekly insights page (patterns over 5-7 days)
@@ -125,11 +125,11 @@ Without observability, we'd be deploying AI blind. Opik gives us data-driven con
 
 **Trace notes:** See `opik_log.md`.
 
-**What We'll Track:**
+**What We Track in Opik:**
 - All LLM calls (transcription, summary, task extraction)
+- Long-term insights generation calls
 - Human feedback (edits, acceptances, rejections)
-- Performance metrics (latency, tokens, cost)
-- A/B test results (prompt optimization)
+- Prompt experiment results on fixed synthetic dataset
 
 ---
 
@@ -142,7 +142,7 @@ Without observability, we'd be deploying AI blind. Opik gives us data-driven con
 - User email (for authentication)
 
 **What We DON'T Store:**
-- Audio recordings (deleted immediately after transcription)
+- Audio recordings (not persisted)
 - Voice biometrics (no voice analysis or fingerprinting)
 - Third-party tracking (no analytics cookies)
 
@@ -188,9 +188,8 @@ Without observability, we'd be deploying AI blind. Opik gives us data-driven con
 
 4. **Set up Supabase:**
    - Create a new project at [supabase.com](https://supabase.com)
-   - Run the database schema (coming soon)
+   - Run `SCHEMA.sql`
    - Enable email authentication
-   - Create a storage bucket named `audio-recordings` (private)
 
 5. **Run development server:**
 ```bash
@@ -207,12 +206,18 @@ Without observability, we'd be deploying AI blind. Opik gives us data-driven con
 - [x] Project setup
 - [x] Repository created
 - [x] Voice recording component
-- [ ] AI integration
-- [ ] Validation UI
-- [ ] Dashboard
-- [ ] Opik integration
-- [ ] Demo account
+- [x] AI integration
+- [x] Validation UI
+- [x] Dashboard
+- [x] Opik integration
+- [x] Demo account
+- [ ] Slide deck
 - [ ] Demo video
+
+### Current Priority
+1. Finalize pitch deck
+2. Record 2-3 minute demo video
+3. Final polish (loading/error UX + landing page copy)
 
 ---
 
