@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { supabase } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -136,62 +136,63 @@ export default function DashboardPage() {
     return { label: "Low", message: "Low energy trend. Consider lighter loads or recovery time." }
   }, [energySeries])
 
-  useEffect(() => {
-    const runInsights = async () => {
-      if (!llmInsightsReady) return
-      const latest = summaries[0]
-      if (!latest) return
-      if (insightRequestRef.current) return
-      if (lastInsightSummaryAtRef.current === latest.created_at && insightStatus === "ready") return
-      setInsightStatus("loading")
-      insightRequestRef.current = true
-      try {
-        const counts = {
-          creating: 0,
-          collaborating: 0,
-          communicating: 0,
-          organizing: 0,
-        }
-        Object.values(tasksBySummary).flat().forEach((task) => {
-          counts[task.category] += 1
-        })
-        const session = await supabase.auth.getSession()
-        const token = session.data.session?.access_token
-        if (!token) {
-          setInsightStatus("error")
-          return
-        }
-        const response = await fetch("/api/generate-insights", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({
-            summaries: summaries.map((item) => ({
-              created_at: item.created_at,
-              wins: item.wins,
-              drains: item.drains,
-              future_focus: item.future_focus,
-              energy_level: item.energy_level,
-              emotional_tone: item.emotional_tone,
-            })),
-            taskCounts: counts,
-            latestSummaryAt: latest.created_at,
-          }),
-        })
-        if (!response.ok) {
-          throw new Error("Failed to generate insights")
-        }
-        const data = await response.json()
-        setLongTermInsights(Array.isArray(data.insights) ? data.insights : [])
-        setInsightStatus("ready")
-        lastInsightSummaryAtRef.current = latest.created_at
-      } catch {
-        setInsightStatus("error")
-      } finally {
-        insightRequestRef.current = false
+  const runInsights = useCallback(async () => {
+    if (!llmInsightsReady) return
+    const latest = summaries[0]
+    if (!latest) return
+    if (insightRequestRef.current) return
+    if (lastInsightSummaryAtRef.current === latest.created_at && insightStatus === "ready") return
+    setInsightStatus("loading")
+    insightRequestRef.current = true
+    try {
+      const counts = {
+        creating: 0,
+        collaborating: 0,
+        communicating: 0,
+        organizing: 0,
       }
+      Object.values(tasksBySummary).flat().forEach((task) => {
+        counts[task.category] += 1
+      })
+      const session = await supabase.auth.getSession()
+      const token = session.data.session?.access_token
+      if (!token) {
+        setInsightStatus("error")
+        return
+      }
+      const response = await fetch("/api/generate-insights", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          summaries: summaries.map((item) => ({
+            created_at: item.created_at,
+            wins: item.wins,
+            drains: item.drains,
+            future_focus: item.future_focus,
+            energy_level: item.energy_level,
+            emotional_tone: item.emotional_tone,
+          })),
+          taskCounts: counts,
+          latestSummaryAt: latest.created_at,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error("Failed to generate insights")
+      }
+      const data = await response.json()
+      setLongTermInsights(Array.isArray(data.insights) ? data.insights : [])
+      setInsightStatus("ready")
+      lastInsightSummaryAtRef.current = latest.created_at
+    } catch {
+      setInsightStatus("error")
+    } finally {
+      insightRequestRef.current = false
     }
-    runInsights()
   }, [llmInsightsReady, summaries, tasksBySummary, insightStatus])
+
+  useEffect(() => {
+    runInsights()
+  }, [runInsights])
 
   useEffect(() => {
     let mounted = true
@@ -367,7 +368,18 @@ export default function DashboardPage() {
                       <p className="mt-2 text-slate-500">Generating insights…</p>
                     )}
                     {llmInsightsReady && insightStatus === "error" && (
-                      <p className="mt-2 text-slate-500">Insights unavailable right now.</p>
+                      <div className="mt-2 flex flex-wrap items-center gap-2 text-slate-500">
+                        <span>Insights unavailable right now.</span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-slate-200 text-slate-600"
+                          onClick={runInsights}
+                          disabled={insightStatus === "loading"}
+                        >
+                          Retry insights
+                        </Button>
+                      </div>
                     )}
                     {llmInsightsReady && insightStatus === "ready" && (
                       <ul className="mt-2 list-disc list-inside space-y-1">

@@ -19,9 +19,10 @@ type RecorderState = "idle" | "recording" | "review"
 type VoiceRecorderProps = {
   maxDurationSeconds?: number
   onSubmit?: (payload: RecordingPayload) => Promise<void> | void
+  disabled?: boolean
 }
 
-export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSubmit }: VoiceRecorderProps) {
+export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSubmit, disabled = false }: VoiceRecorderProps) {
   const [recorderState, setRecorderState] = useState<RecorderState>("idle")
   const [elapsedSeconds, setElapsedSeconds] = useState(0)
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
@@ -150,6 +151,7 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
   }, [])
 
   const startRecording = async () => {
+    if (disabled) return
     setError(null)
     setSubmitMessage(null)
     setAudioBlob(null)
@@ -217,12 +219,14 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
   }, [recorderState, maxDurationSeconds, stopRecording])
 
   const handleManualStop = () => {
+    if (disabled) return
     if (recorderState === "recording") {
       stopRecording()
     }
   }
 
   const resetRecorder = ({ clearMessage }: { clearMessage: boolean }) => {
+    if (disabled) return
     cleanupStream()
     setRecorderState("idle")
     setElapsedSeconds(0)
@@ -235,6 +239,7 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
   }
 
   const handleSubmit = async () => {
+    if (disabled) return
     if (!audioBlob) return
     setIsSubmitting(true)
     setSubmitMessage(null)
@@ -300,6 +305,13 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
   }
 
   const statusConfig = useMemo(() => {
+    if (disabled && recorderState === "idle") {
+      return {
+        title: "Processing in progress",
+        description: "Finish the current AI run before starting a new recording.",
+        accent: "bg-slate-100 border-slate-200 text-slate-600",
+      }
+    }
     switch (recorderState) {
       case "recording":
         return {
@@ -346,13 +358,23 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
 
         <div className="flex flex-wrap justify-center gap-3">
           {recorderState === "idle" && (
-            <Button size="lg" className="bg-brand-600 hover:bg-brand-700 text-white" onClick={startRecording}>
+            <Button
+              size="lg"
+              className="bg-brand-600 hover:bg-brand-700 text-white"
+              onClick={startRecording}
+              disabled={disabled}
+            >
               Start Recording
             </Button>
           )}
           {recorderState === "recording" && (
             <div className="flex items-center gap-3">
-              <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6" onClick={handleManualStop}>
+              <Button
+                size="lg"
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6"
+                onClick={handleManualStop}
+                disabled={disabled}
+              >
                 Stop Recording
               </Button>
               <div className="inline-flex items-center gap-2 text-sm font-medium text-brand-700" aria-live="assertive">
@@ -367,14 +389,14 @@ export function VoiceRecorder({ maxDurationSeconds = MAX_DURATION_SECONDS, onSub
               size="lg"
               variant="outline"
               onClick={() => resetRecorder({ clearMessage: true })}
-              disabled={submissionComplete}
+              disabled={submissionComplete || disabled}
             >
               Re-record
             </Button>
             <Button
               size="lg"
               className="bg-brand-600 hover:bg-brand-700 text-white"
-              disabled={!audioBlob || isSubmitting || submissionComplete}
+              disabled={!audioBlob || isSubmitting || submissionComplete || disabled}
               onClick={handleSubmit}
             >
               {isSubmitting ? "Submitting..." : "Submit Reflection"}

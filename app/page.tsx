@@ -286,12 +286,38 @@ export default function Home() {
             Your 3-Minute AI Work Journal
           </p>
           <p className="text-sm text-slate-500">
-            Voice → Summary + Tasks + Insights
+            Speak for 3 minutes. Get wins, drains, tasks, and patterns.
           </p>
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500">
+            <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1">Privacy-first</span>
+            <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1">Audio not stored</span>
+            <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1">Daily insights</span>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Button asChild size="lg" className="bg-brand-600 hover:bg-brand-700 text-white">
+              <a href="#record">Start recording</a>
+            </Button>
+            {!isAuthenticated && (
+              <Link href="/login">
+                <Button size="lg" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-50">
+                  Sign up free
+                </Button>
+              </Link>
+            )}
+            {isAuthenticated && (
+              <Link href="/dashboard">
+                <Button size="lg" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-50">
+                  View dashboard
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
 
         {hasHydrated && !isGuestLimitReached && (
-          <VoiceRecorder onSubmit={handleSubmit} maxDurationSeconds={recorderLimitSeconds} />
+          <div id="record">
+            <VoiceRecorder onSubmit={handleSubmit} maxDurationSeconds={recorderLimitSeconds} disabled={isProcessing} />
+          </div>
         )}
 
         {hasHydrated && isGuestLimitReached && (
