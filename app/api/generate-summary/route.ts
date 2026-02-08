@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-import { requireAuth } from "@/lib/auth/require-auth"
+import { authOrGuest } from "@/lib/auth/auth-or-guest"
 import { buildInlineAudioPart, generateContent, getGeminiModelName } from "@/lib/gemini"
 import { getRequestMeta } from "@/lib/requests/meta"
 import type { PartUnion } from "@google/genai"
@@ -52,10 +52,10 @@ function safeParseSummary(raw: string): SummaryPayload {
 export async function POST(request: Request) {
   try {
     if (REQUIRE_AUTH) {
-      const auth = await requireAuth(request)
+      const auth = await authOrGuest(request, "generate-summary")
       if (auth.response) {
         const meta = getRequestMeta(request)
-        console.warn("[generate-summary] blocked unauthenticated request", meta)
+        console.warn("[generate-summary] blocked request", meta)
         return auth.response
       }
     }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-import { requireAuth } from "@/lib/auth/require-auth"
+import { authOrGuest } from "@/lib/auth/auth-or-guest"
 import { buildInlineAudioPart, generateContent, getGeminiModelName } from "@/lib/gemini"
 import { getRequestMeta } from "@/lib/requests/meta"
 
@@ -12,10 +12,10 @@ const ALLOWED_MIME_TYPES = ["audio/webm", "audio/webm;codecs=opus", "audio/mpeg"
 export async function POST(request: Request) {
   try {
     if (REQUIRE_AUTH) {
-      const auth = await requireAuth(request)
+      const auth = await authOrGuest(request, "transcribe")
       if (auth.response) {
         const meta = getRequestMeta(request)
-        console.warn("[transcribe] blocked unauthenticated request", meta)
+        console.warn("[transcribe] blocked request", meta)
         return auth.response
       }
     }
