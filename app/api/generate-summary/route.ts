@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server"
 
+import { requireAuth } from "@/lib/auth/require-auth"
 import { buildInlineAudioPart, generateContent, getGeminiModelName } from "@/lib/gemini"
+import { getRequestMeta } from "@/lib/requests/meta"
 import type { PartUnion } from "@google/genai"
 
+const REQUIRE_AUTH = process.env.NODE_ENV === "production"
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
+const MIN_FILE_SIZE_BYTES = 10 * 1024
 const ALLOWED_MIME_TYPES = ["audio/webm", "audio/webm;codecs=opus", "audio/mpeg", "audio/ogg", "audio/wav"]
 
 type SummaryPayload = {
@@ -47,6 +51,15 @@ function safeParseSummary(raw: string): SummaryPayload {
 
 export async function POST(request: Request) {
   try {
+    if (REQUIRE_AUTH) {
+      const auth = await requireAuth(request)
+      if (auth.response) {
+        const meta = getRequestMeta(request)
+        console.warn("[generate-summary] blocked unauthenticated request", meta)
+        return auth.response
+      }
+    }
+
     const formData = await request.formData()
     const transcript = String(formData.get("transcript") ?? "").trim()
     const audioFile = formData.get("audio") as File | null
@@ -73,6 +86,9 @@ export async function POST(request: Request) {
     if (audioFile) {
       if (!ALLOWED_MIME_TYPES.includes(audioFile.type)) {
         return NextResponse.json({ error: "Unsupported audio format" }, { status: 415 })
+      }
+      if (audioFile.size < MIN_FILE_SIZE_BYTES) {
+        return NextResponse.json({ error: "Audio file is too short" }, { status: 400 })
       }
       if (audioFile.size > MAX_FILE_SIZE_BYTES) {
         return NextResponse.json({ error: "Audio file is too large" }, { status: 413 })

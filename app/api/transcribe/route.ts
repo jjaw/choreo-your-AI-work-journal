@@ -1,12 +1,25 @@
 import { NextResponse } from "next/server"
 
+import { requireAuth } from "@/lib/auth/require-auth"
 import { buildInlineAudioPart, generateContent, getGeminiModelName } from "@/lib/gemini"
+import { getRequestMeta } from "@/lib/requests/meta"
 
+const REQUIRE_AUTH = process.env.NODE_ENV === "production"
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
+const MIN_FILE_SIZE_BYTES = 10 * 1024
 const ALLOWED_MIME_TYPES = ["audio/webm", "audio/webm;codecs=opus", "audio/mpeg", "audio/ogg", "audio/wav"]
 
 export async function POST(request: Request) {
   try {
+    if (REQUIRE_AUTH) {
+      const auth = await requireAuth(request)
+      if (auth.response) {
+        const meta = getRequestMeta(request)
+        console.warn("[transcribe] blocked unauthenticated request", meta)
+        return auth.response
+      }
+    }
+
     const formData = await request.formData()
     const audioFile = formData.get("audio") as File | null
 
@@ -16,6 +29,10 @@ export async function POST(request: Request) {
 
     if (!ALLOWED_MIME_TYPES.includes(audioFile.type)) {
       return NextResponse.json({ error: "Unsupported audio format" }, { status: 415 })
+    }
+
+    if (audioFile.size < MIN_FILE_SIZE_BYTES) {
+      return NextResponse.json({ error: "Audio file is too short" }, { status: 400 })
     }
 
     if (audioFile.size > MAX_FILE_SIZE_BYTES) {

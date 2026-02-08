@@ -101,10 +101,14 @@ export default function Home() {
     try {
       setUploadStatus("Processing AI results...")
 
+      const authToken = (await supabase.auth.getSession()).data.session?.access_token
+      const authHeaders = authToken ? { Authorization: `Bearer ${authToken}` } : undefined
+
       const transcribeData = new FormData()
       transcribeData.append("audio", payload.audioBlob, `recording.webm`)
       const transcribeResponse = await fetch("/api/transcribe", {
         method: "POST",
+        ...(authHeaders ? { headers: authHeaders } : {}),
         body: transcribeData,
       })
       if (!transcribeResponse.ok) {
@@ -120,6 +124,7 @@ export default function Home() {
       summaryData.append("audio", payload.audioBlob, `recording.webm`)
       const summaryResponse = await fetch("/api/generate-summary", {
         method: "POST",
+        ...(authHeaders ? { headers: authHeaders } : {}),
         body: summaryData,
       })
       if (!summaryResponse.ok) {
@@ -133,6 +138,7 @@ export default function Home() {
       tasksData.append("transcript", transcriptText)
       const tasksResponse = await fetch("/api/extract-tasks", {
         method: "POST",
+        ...(authHeaders ? { headers: authHeaders } : {}),
         body: tasksData,
       })
       if (!tasksResponse.ok) {
@@ -143,7 +149,6 @@ export default function Home() {
       const extractedTasks = tasksJson.tasks?.tasks ?? []
       setTasks(extractedTasks)
 
-      const authToken = (await supabase.auth.getSession()).data.session?.access_token
       if (authToken) {
         const saveResponse = await fetch("/api/save-reflection", {
           method: "POST",

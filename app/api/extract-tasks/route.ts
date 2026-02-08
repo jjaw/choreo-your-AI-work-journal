@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server"
 
+import { requireAuth } from "@/lib/auth/require-auth"
 import { generateContent, getGeminiModelName } from "@/lib/gemini"
+import { getRequestMeta } from "@/lib/requests/meta"
+
+const REQUIRE_AUTH = process.env.NODE_ENV === "production"
 
 type TaskItem = {
   task_text: string
@@ -61,6 +65,15 @@ function safeParseTasks(raw: string): TaskPayload {
 
 export async function POST(request: Request) {
   try {
+    if (REQUIRE_AUTH) {
+      const auth = await requireAuth(request)
+      if (auth.response) {
+        const meta = getRequestMeta(request)
+        console.warn("[extract-tasks] blocked unauthenticated request", meta)
+        return auth.response
+      }
+    }
+
     const formData = await request.formData()
     const transcript = String(formData.get("transcript") ?? "").trim()
 
