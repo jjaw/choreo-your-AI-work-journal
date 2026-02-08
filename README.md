@@ -131,6 +131,9 @@ Without observability, we'd be deploying AI blind. Opik gives us data-driven con
 - Human feedback (edits, acceptances, rejections)
 - Prompt experiment results on fixed synthetic dataset
 
+**Incident Note (Feb 2026):**
+We observed unexpected spikes in `/api/transcribe` traffic from bot user agents. Opik trace visibility helped us detect the anomaly quickly, correlate it to public endpoints, and add auth + guest rate-limits to prevent further abuse.
+
 ---
 
 ## Privacy-First Approach
