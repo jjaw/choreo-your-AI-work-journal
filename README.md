@@ -4,7 +4,7 @@
 
 **Hackathon Track:** Productivity & Work Habits  
 **Awards Targeting:** Best in Category ($5,000) + Best Use of Opik ($5,000)  
-**Live Demo:** Coming soon  
+**Live Demo:** https://choreo-your-ai-work-journal.vercel.app  
 **Demo Video:** Coming soon
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
@@ -170,7 +170,7 @@ Without observability, we'd be deploying AI blind. Opik gives us data-driven con
 
 1. **Clone the repository:**
 ```bash
-   git clone https://github.com/yourusername/choreo.git
+   git clone https://github.com/jjaw/choreo-your-ai-work-journal.git
    cd choreo
 ```
 
