@@ -65,6 +65,8 @@ function safeParseTasks(raw: string): TaskPayload {
 
 export async function POST(request: Request) {
   try {
+    let authMode: "auth" | "guest" = "guest"
+    let ipHash: string | undefined
     if (REQUIRE_AUTH) {
       const auth = await authOrGuest(request, "extract-tasks")
       if (auth.response) {
@@ -72,6 +74,8 @@ export async function POST(request: Request) {
         console.warn("[extract-tasks] blocked request", meta)
         return auth.response
       }
+      if (auth.user) authMode = "auth"
+      ipHash = auth.ipHash
     }
 
     const formData = await request.formData()
@@ -106,6 +110,8 @@ export async function POST(request: Request) {
         metadata: {
           route: "extract-tasks",
           transcriptLength: transcript.length,
+          authMode,
+          ...(authMode === "guest" && ipHash ? { ipHash } : {}),
         },
       },
     })

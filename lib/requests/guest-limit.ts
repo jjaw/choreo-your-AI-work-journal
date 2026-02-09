@@ -3,12 +3,13 @@ import { NextResponse } from "next/server"
 
 import { supabaseAdmin } from "@/lib/supabase/admin"
 
-const hashIp = (value: string) =>
+export const hashIp = (value: string) =>
   crypto.createHash("sha256").update(value).digest("hex")
 
 export const enforceGuestLimit = async (ip: string | null, route: string) => {
   if (!ip) {
     return {
+      ipHash: undefined,
       response: NextResponse.json({ error: "Missing client IP" }, { status: 400 }),
     }
   }
@@ -34,6 +35,7 @@ export const enforceGuestLimit = async (ip: string | null, route: string) => {
   const currentCount = data?.count ?? 0
   if (currentCount >= 1) {
     return {
+      ipHash,
       response: NextResponse.json(
         { error: "Guest limit reached. Please sign in to continue." },
         { status: 429 }
@@ -56,9 +58,10 @@ export const enforceGuestLimit = async (ip: string | null, route: string) => {
   if (upsertError) {
     console.error("[guest-limit] upsert failed", upsertError)
     return {
+      ipHash,
       response: NextResponse.json({ error: "Guest limit check failed" }, { status: 500 }),
     }
   }
 
-  return { response: null }
+  return { response: null, ipHash }
 }

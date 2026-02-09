@@ -17,5 +17,5 @@ export const authOrGuest = async (request: Request, route: string) => {
 
   const meta = getRequestMeta(request)
   const gate = await enforceGuestLimit(meta.ip, route)
-  return { response: gate.response }
+  return { response: gate.response, ipHash: gate.ipHash, meta }
 }

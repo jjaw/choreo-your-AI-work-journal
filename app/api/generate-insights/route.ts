@@ -113,6 +113,16 @@ export async function POST(request: Request) {
     const result = await generateContent({
       model: getGeminiModelName(),
       contents: prompt,
+      tracing: {
+        generationName: "long_term_insights",
+        tags: ["insights"],
+        metadata: {
+          route: "/api/generate-insights",
+          authMode: "auth",
+          reflectionCount: summaries.length,
+          latestSummaryAt,
+        },
+      },
     })
     const raw = result.text?.trim() ?? ""
     const jsonMatch = raw.match(/\{[\s\S]*\}/)

@@ -51,6 +51,8 @@ function safeParseSummary(raw: string): SummaryPayload {
 
 export async function POST(request: Request) {
   try {
+    let authMode: "auth" | "guest" = "guest"
+    let ipHash: string | undefined
     if (REQUIRE_AUTH) {
       const auth = await authOrGuest(request, "generate-summary")
       if (auth.response) {
@@ -58,6 +60,8 @@ export async function POST(request: Request) {
         console.warn("[generate-summary] blocked request", meta)
         return auth.response
       }
+      if (auth.user) authMode = "auth"
+      ipHash = auth.ipHash
     }
 
     const formData = await request.formData()
@@ -110,6 +114,8 @@ export async function POST(request: Request) {
           hasAudio: Boolean(audioFile),
           audioMimeType: audioFile?.type ?? null,
           audioSizeBytes: audioFile?.size ?? null,
+          authMode,
+          ...(authMode === "guest" && ipHash ? { ipHash } : {}),
         },
       },
     })

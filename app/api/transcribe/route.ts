@@ -11,6 +11,8 @@ const ALLOWED_MIME_TYPES = ["audio/webm", "audio/webm;codecs=opus", "audio/mpeg"
 
 export async function POST(request: Request) {
   try {
+    let authMode: "auth" | "guest" = "guest"
+    let ipHash: string | undefined
     if (REQUIRE_AUTH) {
       const auth = await authOrGuest(request, "transcribe")
       if (auth.response) {
@@ -18,6 +20,8 @@ export async function POST(request: Request) {
         console.warn("[transcribe] blocked request", meta)
         return auth.response
       }
+      if (auth.user) authMode = "auth"
+      ipHash = auth.ipHash
     }
 
     const formData = await request.formData()
@@ -57,6 +61,8 @@ export async function POST(request: Request) {
           hasAudio: true,
           audioMimeType: audioFile.type,
           audioSizeBytes: audioFile.size,
+          authMode,
+          ...(authMode === "guest" && ipHash ? { ipHash } : {}),
         },
       },
     })

@@ -24,3 +24,7 @@
 - Added validation save endpoint and wired DB feedback logging (summary edits + task acceptance).
 - Polished completed actions UI (category pills, helper legend) and added validation success toast.
 - Generated 30-sample synthetic dataset and added experiment runner + results formatter scripts.
+
+## Feb 8
+- Added guest IP hash metadata to Opik traces for transcribe/summary/tasks, scoped to guest-only.
+- Kept authenticated traces free of IP identifiers while retaining guest abuse visibility.
